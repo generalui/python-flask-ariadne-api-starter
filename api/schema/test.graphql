@@ -1,0 +1,35 @@
+"""
+The `TestPage` type is returned in test queries.
+"""
+type TestPage {
+    "A list of `TestFields`"
+    items: TestFields!
+    "The number of pages returned."
+    page: Int!
+}
+
+"""
+Some database independent test fields to demonstrate the server graphql response.
+"""
+type TestFields {
+    "The media type of the current resource."
+    contentType: String!
+    "A characteristic string that identifies the Operating System and Browser of the current web-server."
+    userAgent: String!
+    "Some HTTP headers that provide information about the current request context."
+    headers: TestHeaders!
+}
+
+"""
+Some HTTP headers that provide information about the current request context.
+"""
+type TestHeaders {
+    "A number that indicates the size of current entity-body in bytes."
+    contentLength: Int!
+    "The content type of the current returned content."
+    contentType: String!
+    "The host and port number of the server to which the current request is being sent."
+    host: String!
+    "A characteristic string that identifies the Operating System and Browser of the current web-server."
+    userAgent: String!
+}

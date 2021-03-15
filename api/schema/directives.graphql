@@ -1,0 +1,4 @@
+"""
+The `isAuthenticated` directive denotes fields that can only be used when the user is authenticated.
+"""
+directive @isAuthenticated on FIELD_DEFINITION

@@ -1,0 +1,24 @@
+{
+  "remote.containers.defaultExtensions": [
+    "bierner.markdown-preview-github-styles",
+    "davidanson.vscode-markdownlint",
+    "graphql.vscode-graphql",
+    "ms-python.python",
+    "ms-vscode-remote.remote-containers",
+    "shakram02.bash-beautify",
+    "shardulm94.trailing-spaces",
+    "streetsidesoftware.code-spell-checker"
+  ],
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "files.trimTrailingWhitespace": true,
+  "python.formatting.autopep8Args": [
+    "--ignore",
+    "E402"
+  ],
+  "files.associations": {
+    "Dockerfile*": "dockerfile"
+  },
+  "python.linting.pylintEnabled": true,
+  "python.linting.enabled": true
+}

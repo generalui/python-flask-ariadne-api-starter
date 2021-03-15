@@ -1,0 +1,61 @@
+type Query {
+  """
+  The "addresses" query
+
+  If no arguments are passed, this will return all addresses.
+  """
+  addresses(
+    "An instance of PagingInput (see PagingInput)"
+    paging: PagingInput
+    "A boolean specifying whether or not duplicates should be filtered out. Default is false. Set to 'true' only when necessary, as it negatively impacts performance."
+    distinct: Boolean
+    "A list of street addresses to filter by."
+    address1: [String!]
+    "A list of additional street address information to filter by."
+    address2: [String!]
+    "A list of cities to filter by."
+    city: [String!]
+    "A list of countries to filter by."
+    country: [String!]
+    "A list of states (provinces) to filter by."
+    state: [String!]
+    "A list of zipcodes (postcodes) to filter by."
+    zipcode: [String!]
+  ): Address!
+
+  """
+  A simple test query that is independent of the database.
+  """
+  test: TestPage!
+
+  """
+  A simple test query that must be authenticated.
+  """
+  testAuth: TestPage! @isAuthenticated
+
+  """
+  The "users" query
+
+  If no arguments are passed, this will return all users.
+  """
+  users(
+    "An instance of PagingInput (see PagingInput)"
+    paging: PagingInput
+    "A boolean specifying whether or not duplicates should be filtered out. Default is false. Set to 'true' only when necessary, as it negatively impacts performance."
+    distinct: Boolean
+    "A list of address ids to filter by."
+    addressId: [ID!]
+    "A list of emails to filter by."
+    email: [String!]
+    "A list of first names to filter by."
+    firstName: [String!]
+    "A list of last names to filter by."
+    lastName: [String!]
+    "A list of prefixes to filter by. Must be from the `UserPrefixEnum` ('Miss', 'Mr', 'Mrs', 'Ms', or 'Mx')."
+    prefix: [UserPrefixEnum!]
+    "A list of statuses to filter by. Must be from the `UserStatusEnum` ('Active', 'Banned', 'Inactive', or 'Pending')."
+    status: [UserStatusEnum!]
+    "A list of telephone numbers to filter by."
+    telephone: [String!]
+  ): User!
+}

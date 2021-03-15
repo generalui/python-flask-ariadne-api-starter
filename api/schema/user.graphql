@@ -1,0 +1,113 @@
+"""
+The "UserPrefixEnum" scalar will always be either 'Miss', 'Mr', 'Mrs', 'Ms', or 'Mx'.
+"""
+scalar UserPrefixEnum
+
+"""
+The "UserStatusEnum" scalar will always be either 'Active', 'Banned', 'Inactive', or 'Pending'.
+"""
+scalar UserStatusEnum
+
+"""
+The `RegistrationInput` Is the values that can be passed for the registration mutation.
+"""
+input RegistrationInput {
+  "The database id for the address of the user."
+  addressId: Int
+  "The email address of the user. This must be unique."
+  email: String!
+  "The new email address of the user. This must be unique."
+  newEmail: String
+  "The first name of the user."
+  firstName: String!
+  "The last name of the user."
+  lastName: String!
+  "The password to be used for the user."
+  password: String!
+  "The new password to be used for the user."
+  newPassword: String
+  "The preferred prefix of the user. May be a value from the `UserPrefixEnum` ('Miss', 'Mr', 'Mrs', 'Ms', or 'Mx')."
+  prefix: UserPrefixEnum
+  "The phone number of the user."
+  telephone: String
+}
+
+"""
+The `LoginInput` is the values that can be passed for the login mutation.
+"""
+input LoginInput {
+  "The email address of the user. This must be unique."
+  email: String!
+  "The password to be used for the user."
+  password: String!
+}
+
+"""
+The `LoginPayload` type describes the fields that may be returned for a login mutation.
+"""
+type LoginPayload {
+    "A user friendly error message."
+    error: String
+    "The JWT authentication token for the users current login session."
+    token: String
+    "A `UserNode` object."
+    user: UserNode
+}
+
+"""
+The `UserNode` type describes the properties of a user.
+"""
+type UserNode implements BaseNode {
+  "The database generated id for the user."
+  id: ID!
+  "The address of the user. This corresponds to the addressId."
+  address: AddressNode!
+  "The database id for the address of the user."
+  addressId: ID!
+  "The email address of the user. This must be unique."
+  email: String!
+  "The first name of the user."
+  firstName: String!
+  "The last name of the user."
+  lastName: String!
+  "The preferred prefix of the user. May be a value from the `UserPrefixEnum` ('Miss', 'Mr', 'Mrs', 'Ms', or 'Mx')."
+  prefix: UserPrefixEnum!
+  "The status of the user. May be a value from the `UserStatusEnum` ('Active', 'Banned', 'Inactive', or 'Pending')."
+  status: UserStatusEnum!
+  "The phone number of the user."
+  telephone: String
+}
+
+"""
+The `SimpleUserNode` type describes the properties of a user.
+"""
+type SimpleUserNode implements BaseNode {
+  "The database generated id for the user."
+  id: ID!
+  "The database id for the address of the user."
+  addressId: ID!
+  "The email address of the user. This must be unique."
+  email: String!
+  "The first name of the user."
+  firstName: String!
+  "The last name of the user."
+  lastName: String!
+  "The preferred prefix of the user. May be a value from the `UserPrefixEnum` ('Miss', 'Mr', 'Mrs', 'Ms', or 'Mx')."
+  prefix: UserPrefixEnum!
+  "The status of the user. May be a value from the `UserStatusEnum` ('Active', 'Banned', 'Inactive', or 'Pending')."
+  status: UserStatusEnum!
+  "The phone number of the user."
+  telephone: String
+}
+
+"""
+The `User` type describes a user return object. This includes paging info, any error info, and a list of returned `UserNodes`.
+"""
+type User implements BaseResult {
+  "A Paging object (see Paging)"
+  paging: Paging
+  "A string describing any error that may have occurred."
+  error: String
+  "A list of returned UserNodes"
+  items: [UserNode!]
+}

@@ -1,0 +1,58 @@
+version: "3.8"
+
+services:
+  api:
+    env_file: ${DOT_ENV_FILE}
+    # Ensure specific environment variables are ALWAYS available.
+    environment:
+      - NO_AUTO_START=${NO_AUTO_START}
+      - FLASK_APP=${FLASK_APP}
+      - FLASK_ENV=${FLASK_ENV}
+      - FLASK_RUN_PORT=${FLASK_RUN_PORT}
+      - LOG_TYPE=${LOG_TYPE}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_DB_TEST=${POSTGRES_DB_TEST}
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_HOST_TEST=${POSTGRES_HOST_TEST}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_PORT_TEST=${POSTGRES_PORT_TEST}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_PASSWORD_TEST=${POSTGRES_PASSWORD_TEST}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_USER_TEST=${POSTGRES_USER_TEST}
+      - PYTHONUNBUFFERED=1
+      - SECRET_KEY=${SECRET_KEY}
+      - SNAKEVIZ_PORT=${SNAKEVIZ_PORT}
+      - SSL_ENABLED=${SSL_ENABLED}
+    build:
+      context: ./
+      dockerfile: Dockerfile-dev
+      args:
+        pythonImageVersion: ${PYTHON_IMAGE_VERSION}
+    container_name: python-flask-ariadne-api-starter
+    image: python-flask-ariadne-api-starter:dev
+    # Same as docker run -i
+    stdin_open: true
+    # Same as docker run -t
+    tty: true
+    command: ["sh", "-c", "if [ -z '${NO_AUTO_START}' ]; then python /app/run.py; else bash; fi"]
+    ports:
+      - ${FLASK_RUN_PORT}:${FLASK_RUN_PORT}
+      - ${SNAKEVIZ_PORT}:${SNAKEVIZ_PORT}
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://localhost:${FLASK_RUN_PORT}/healthcheck"]
+    #   interval: 15s
+    #   timeout: 7s
+    #   retries: 5
+    #   start_period: 30s
+    volumes:
+      - .:/app:delegated
+      - ~/.gitconfig:/root/.gitconfig:delegated
+      - ~/.ssh:/root/.ssh:delegated
+      - python-flask-ariadne-api-starter-dev-root-vol:/root:delegated
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
+volumes:
+  python-flask-ariadne-api-starter-dev-root-vol:

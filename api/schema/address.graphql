@@ -1,0 +1,49 @@
+"""
+The `AddressInput` is an object with the allowed (and required) values to pass in to an address.
+"""
+input AddressInput {
+  "The address. Additional values may be added in address2."
+  address1: String!
+  "Additional address info."
+  address2: String
+  "The city of the address."
+  city: String!
+  "The country of the address."
+  country: String!
+  "The state or province of the address."
+  state: String!
+  "The zipcode or postcode of the address."
+  zipcode: String!
+}
+
+"""
+The `AddressNode` type describes the properties of an address.
+"""
+type AddressNode implements BaseNode {
+  "The database generated id for the address."
+  id: ID!
+  "The address. Additional values may be added in address2."
+  address1: String!
+  "Additional address info."
+  address2: String
+  "The city of the address."
+  city: String!
+  "The country of the address."
+  country: String!
+  "The state or province of the address."
+  state: String!
+  "The zipcode or postcode of the address."
+  zipcode: String!
+}
+
+"""
+The `Address` type describes an address return object. This includes paging info, any error info, and a list of returned `AddressNodes`.
+"""
+type Address implements BaseResult {
+  "A Paging object (see Paging)"
+  paging: Paging
+  "A string describing any error that may have occurred."
+  error: String
+  "A list of returned AddressNodes"
+  items: [AddressNode!]
+}

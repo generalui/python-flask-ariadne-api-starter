@@ -1,0 +1,19 @@
+"""
+The "BaseNode" interface defines an interface implemented by return types:
+"""
+interface BaseNode {
+  "A unique identifier for this record. Do not request 'id' if 'distinct' is 'true'"
+  id: ID!
+}
+
+"""
+Provides a common interface for return data.
+"""
+interface BaseResult {
+  "Pagination metadata. (see Paging)"
+  paging: Paging
+  "A string error message returned by the API and may be displayed to the user by the client. This is separate from 'errors' which provides useful feedback during client development."
+  error: String
+  "A list of returned objects that implement the BaseNode interface."
+  items: [BaseNode!]
+}

@@ -1,0 +1,35 @@
+type Mutation {
+  """
+  The `addAddress` mutation
+  """
+  addAddress(
+    "The address values for the address being added."
+    input: AddressInput!
+  ): ResponsePayload!
+
+  """
+  The `login` mutation
+  """
+  login(
+    "The values to pass to the login."
+    input: LoginInput!
+  ): LoginPayload!
+
+  """
+  The `register` mutation
+  """
+  register(
+    "The values to pass in to the registration."
+    input: RegistrationInput!
+  ): ResponsePayload!
+}
+
+"""
+The `ResponsePayload` type
+"""
+type ResponsePayload {
+  "The response status."
+  status: Boolean!
+  "The id of the record added."
+  id: ID
+}
