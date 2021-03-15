@@ -13,7 +13,7 @@ A GraphQL API that serves data from a PostgreSQL Database. This is built in Pyth
 - [Git](https://git-scm.com/) To clone this repo!
 - [Docker Desktop](https://www.docker.com/products/docker-desktop) (`docker`)
 - [Visual Studio Code](https://code.visualstudio.com/) (`code`) - this is optional, but sure makes everything a lot easier.
-- A PostgreSQL server. See [running PostgreSQL in Docker](#running-postgres-in-docker) for more info.
+- A PostgreSQL server. See [Running PostgreSQL in Docker](#running-postgresql-in-docker) for more info.
 
 ## Development
 
@@ -61,10 +61,10 @@ If you choose NOT to use the dockerized development method above, please ensure 
 
 See [https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/) for information on installing Python packages for a specific project.
 
-Start the app with the following called from the root of the project. (Please note the dot(`.`) at the very beginning of the command. This will "source" the script.):
+Start the app with the following called from the root of the project:
 
 ```sh
-. set_env_variables.sh && python run.py
+source ./set_env_variables.sh && python run.py
 ```
 
 ### Running PostgreSQL in Docker
@@ -96,15 +96,21 @@ POSTGRES_USER={get_the_database_user}
 
 ### Environment Variables
 
-All the environment variables used by the app have defaults. To set the environment variables, simply run the following bash script from the root of the app folder ([`apps/api-python/`](./)). (Please note the dot(`.`) at the very beginning of the command. This will "source" the script.):
+All the environment variables used by the app have defaults. To set the environment variables, simply run the following bash script from the root of the [`project folder`](./):
 
 ```sh
-. set_env_variables.sh
+source set_env_variables.sh
 ```
 
-The default environment variables' values may be over-written by adding the value to a `.env-dev` file in the root of the app folder ([`apps/api-python/`](./)). This file is not versioned in the repository.
+The default environment variables' values may be over-written by adding the value to a `.env-dev` file in the root of the [`project folder`](./). This file is not versioned in the repository.
 
 The [`.env-SAMPLE`](./.env-SAMPLE) file is an example of what the `.env-dev` could be like and may be used as a reference.
+
+To reset the environment variables to the defaults (still using the values in the `.env-dev` file), run the following bash script in the root of the [`project folder`](./):
+
+```sh
+source reset_env_variables.sh
+```
 
 ### Building the Database
 
