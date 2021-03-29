@@ -130,7 +130,9 @@ RUN pip install --upgrade pip && \
     apk del --no-cache .build-deps
 
 # Inside the container, execute the Python script that starts the server.
-CMD ["bash", "-c", "python /app/run.py"]
+# Only if `NO_AUTO_START` is NOT set.
+# Otherwise, tail nothing so a process will continue and the container will run.
+CMD ["bash", "-c", "if [ -z ${NO_AUTO_START} ]; then python /app/run.py; else tail -f /dev/null; fi"]
 ```
 
 Of course the Docker files could be run as is with Docker cli. This would be just a bit ugly and complicated. I'll use docker-compose instead.
@@ -183,7 +185,7 @@ services:
     command:
       - "sh"
       - "-c"
-      - "if [ -z ${NO_AUTO_START:-} ]; then python /app/run.py; else bash; fi"
+      - "if [ -z ${NO_AUTO_START:-} ]; then python /app/run.py; else tail -f /dev/null; fi"
     ports:
       - ${FLASK_RUN_PORT:-5000}:${FLASK_RUN_PORT:-5000}
       - ${SNAKEVIZ_PORT:-8020}:${SNAKEVIZ_PORT:-8020}
@@ -212,7 +214,7 @@ In the `build` option, I tell docker compose where to find the docker file and w
 
 I've added a container name and image name to help easily identify them on the local machine. I have named them `python-flask-ariadne-api-starter` for this app, but they could be named whatever is convenient. The image version is tagged simply `dev` as this image will be overwritten with changes.
 
-The `command` option is executed in the container once the container is built. I have created an optional `NO_AUTO_START` variable that will be set (or not) in the container. If it is set to a truthy value, the container will NOT automatically start the server. This may be useful for starting the container and then entering the container to do all dev inside. The server may then be started inside the container and played with exclusively in the container context. More on this later.
+The `command` option is executed in the container once the container is built. I have created an optional `NO_AUTO_START` variable that will be set (or not) in the container. If it is set to a truthy value, the container will NOT automatically start the server. This may be useful for starting the container and then entering the container to do all dev inside. The server may then be started inside the container and played with exclusively in the container context. More on this later. If `NO_AUTO_START` is set to a truthy value, then I execute `tail -f /dev/null`. This tails nothing but provides a process to run so that the container will keep running.
 
 The `ports` option exposes ports inside the container to the outside machine. The `FLASK_RUN_PORT` is the port that the server will be running on. As localhost inside the container can't be accessed by the local browser, the port is exposed. This is also true for the `SNAKEVIZ_PORT` port, the port that the profiling info page is rendered on. Learn more about [SnakeViz](https://jiffyclub.github.io/snakeviz/).
 
