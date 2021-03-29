@@ -39,4 +39,4 @@ RUN pip install --upgrade pip && \
     apk del --no-cache .build-deps
 
 # Inside the container, execute the Python script that starts the server.
-CMD ["bash", "-c", "if [ -z ${NO_AUTO_START} ]; then python /app/run.py; else bash; fi"]
+CMD ["bash", "-c", "if [ -z ${NO_AUTO_START} ]; then python /app/run.py; else tail -f /dev/null; fi"]
