@@ -39,4 +39,6 @@ RUN pip install --upgrade pip && \
     apk del --no-cache .build-deps
 
 # Inside the container, execute the Python script that starts the server.
+# Only if `NO_AUTO_START` is NOT set.
+# Otherwise, tail nothing so a process will continue and the container will run.
 CMD ["bash", "-c", "if [ -z ${NO_AUTO_START} ]; then python /app/run.py; else tail -f /dev/null; fi"]
