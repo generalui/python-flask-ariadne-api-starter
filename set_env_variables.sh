@@ -1,48 +1,41 @@
 #!/bin/bash
 
+# Defined some useful colors for echo outputs.
+# Use BLUE for informational.
+BLUE="\033[1;34m"
+# Use Green for a successful action.
 GREEN="\033[0;32m"
+# Use YELLOW for warning informational and initiating actions.
 YELLOW="\033[1;33m"
-# No Color
+# No Color (used to stop or reset a color).
 NC='\033[0m'
 
 # The project directory.
 PROJECT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
->&2 echo -e "${GREEN}Current project dir - ${PROJECT_DIR}${NC}"
+>&2 echo -e "${BLUE}Current project dir - ${PROJECT_DIR}${NC}"
 
 # .env-dev loading in the shell
-DOT_ENV_FILE=${PROJECT_DIR}/.env-dev
-dotenv() {
+DOT_ENV=.env-dev
+DOT_ENV_FILE=${PROJECT_DIR}/${DOT_ENV}
+function dotenv() {
     if [ -f "${DOT_ENV_FILE}" ]
     then
         set -a
         [ -f ${DOT_ENV_FILE} ] && . ${DOT_ENV_FILE}
         set +a
+        >&2 echo -e "${GREEN}* Override environment variables set from the ${DOT_ENV} file.${NC}"
+        >&2 echo -e "${GREEN}* DOT_ENV_FILE set to ${DOT_ENV_FILE}${NC}"
     else
         DOT_ENV_FILE=${PROJECT_DIR}/.env-none
-        >&2 echo -e "${YELLOW}Not using a .env-dev file${NC}"
+        >&2 echo -e "${YELLOW}Not using a ${DOT_ENV} file${NC}"
     fi
 }
 # Run dotenv
 dotenv
 
 # If environment variables are set, use them. If not, use the defaults.
-export NO_AUTO_START=${NO_AUTO_START:null}
-export DOT_ENV_FILE=${DOT_ENV_FILE}
-export FLASK_APP=${FLASK_APP:-app.py}
-export FLASK_ENV=${FLASK_ENV:-development}
+# Only need defaults for `DOT_ENV_FILE` and `FLASK_RUN_PORT` as they are used in the scripts.
+# All other defaults are set in the `docker-compose.yml` file.
+export DOT_ENV_FILE=${DOT_ENV_FILE:-}
 export FLASK_RUN_PORT=${FLASK_RUN_PORT:-5000}
-export LOG_TYPE=${LOG_TYPE:null}
-export POSTGRES_DB=${POSTGRES_DB:-pfaas_dev}
-export POSTGRES_DB_TEST=${POSTGRES_DB:-pfaas_test}
-export POSTGRES_HOST=${POSTGRES_HOST:-host.docker.internal}
-export POSTGRES_HOST_TEST=${POSTGRES_HOST:-host.docker.internal}
-export POSTGRES_PORT=${POSTGRES_PORT:-5432}
-export POSTGRES_PORT_TEST=${POSTGRES_PORT:-5432}
-export POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-docker}
-export POSTGRES_PASSWORD_TEST=${POSTGRES_PASSWORD:-docker}
-export POSTGRES_USER=${POSTGRES_USER:-postgres}
-export POSTGRES_USER_TEST=${POSTGRES_USER:-postgres}
-export PYTHON_IMAGE_VERSION=${PYTHON_IMAGE_VERSION:-3.8-alpine}
-export SECRET_KEY=${SECRET_KEY:-some_real_good_secret}
-export SNAKEVIZ_PORT=${SNAKEVIZ_PORT:-8020}
-export SSL_ENABLED=${SSL_ENABLED:null}
+>&2 echo -e "${GREEN}* Default environment variables set that weren't overridden in the ${DOT_ENV} file or from the command line.${NC}"
