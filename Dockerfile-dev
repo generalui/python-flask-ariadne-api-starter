@@ -1,48 +1,42 @@
-# Make the Python version into a variable so that it may be updated easily if / when needed. (ie "3.8-alpine")
-ARG pythonImageVersion
+# Make the Python version into a variable so that it may be updated easily if / when needed. (ie "3.8")
+ARG pythonVersion
 
 # Using a python image itself so the app may be started and stoped more directly.
-FROM python:${pythonImageVersion}
+# Start with a bare Alpine Linux to keep the container image small.
+FROM python:${pythonVersion}-alpine
 
 # Designate the `/app` folder inside the container as the working directory.
 WORKDIR /app
 
 # Copy the requirements (both prod and dev) files to the `/app` folder inside the container.
-COPY ./requirements.txt /app/requirements.txt
-COPY ./requirements-dev.txt /app/requirements-dev.txt
+# Do this in a separate "COPY" so that the the image will update if either of these files change.
+COPY ./requirements.txt ./requirements-dev.txt /app/
+# Copy the code base to the work directory. This will ensure it is added to the volume.
+COPY ./ /app/
 
-# ENV PATH="/root/.cargo/bin:${PATH}"
-
+# Execute everything under a single "RUN" to reduce the layer count.
 # Upgrade pip
-RUN pip install --upgrade pip
-# `libpq` is needed for Postgres commands.
-RUN apk add --no-cache libpq \
-    # These are only installed in the development environment.
-    bash curl openssh git nodejs npm
-# The `glob` and `glob-promise` are needed by `git-genui`. These are only installed in the development environment. See https://www.npmjs.com/package/git-genui
-RUN npm install -g glob glob-promise
-RUN npm install -g git-genui
-# Install build tools for installing dependencies.
-RUN apk add --no-cache --virtual .build-deps \
+RUN pip install --upgrade pip && \
+    # `libpq` is needed for Postgres commands.
+    apk add --no-cache libpq \
+    # These useful tools are only installed in the development environment.
+    bash curl openssh git nodejs npm && \
+    # Install `git-genui` for git commits.
+    # This is only installed in the development environment.
+    # See https://www.npmjs.com/package/git-genui
+    npm install -g git-genui && \
+    # Install build tools for installing dependencies.
+    apk add --no-cache --virtual .build-deps \
     gcc \
     musl-dev \
-    # `libffi-dev` is needed for `cryptography`.
-    # libffi-dev \
-    # `cargo` is needed for `cryptography`.
-    # cargo \
     postgresql-dev \
-    linux-headers
-# Install Rust compiler for `cryptography`.
-# RUN curl https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-musl/rustup-init --output /tmp/rustup-init \
-#     && chmod +x /tmp/rustup-init \
-#     && /tmp/rustup-init -y
-# Install the PyPI dependencies using pip
-RUN pip install --no-cache-dir -r requirements.txt \
+    linux-headers && \
+    # Install the PyPI dependencies using pip
+    pip install --no-cache-dir -r requirements.txt && \
     # These are only installed in the development environment.
-    && pip install --no-cache-dir -r requirements-dev.txt
-# Remove the build tools now that we are done with them.
-RUN apk del --no-cache .build-deps
-# RUN rustup self uninstall -y
+    pip install --no-cache-dir -r requirements-dev.txt && \
+    # Remove the build tools now that we are done with them.
+    apk del --no-cache .build-deps
 
 # Inside the container, execute the Python script that starts the server.
-CMD ["bash", "-c", "python /app/run.py"]
+CMD ["bash", "-c", "if [ -z ${NO_AUTO_START} ]; then python /app/run.py; else bash; fi"]
