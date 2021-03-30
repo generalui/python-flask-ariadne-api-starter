@@ -1,5 +1,7 @@
 # Python Flask Ariadne Development Environment in Docker
 
+![Under the Hood](article_assets/UnderRoosevelt01.jpg)
+
 I often work on projects or create projects that must be handed off to other developers once created. Having been on the receiving end of this, I know that it can be a huge time-suck to try to get a project started up locally with all the correct dependencies. A developer picking up an existing application often needs to get the app running quickly so they can target the new feature (or bug) that is the current need. Exploring local setup shouldn't be the bulk of time spent.
 
 Additionally, when I am working on local dev, I want my dev environment to match the production environment as closely as possible. How many times has code worked in local only to fail in production because the environment is slightly different?
