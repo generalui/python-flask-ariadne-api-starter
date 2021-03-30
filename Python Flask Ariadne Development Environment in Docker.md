@@ -531,6 +531,9 @@ GREEN="\033[0;32m"
 # No Color (used to stop or reset a color).
 NC='\033[0m'
 
+# The project directory.
+PROJECT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
 # Unset any previously set environment variables.
 unset DOT_ENV_FILE
 unset FLASK_APP
@@ -556,7 +559,7 @@ unset SSL_ENABLED
 >&2 echo -e "${GREEN}* Environment variables unset.${NC}"
 
 # Set the environment variables.
-source ./set_env_variables.sh
+source ${PROJECT_DIR}/set_env_variables.sh
 ```
 
 Yet again, I define some nice colors for displaying console text to the user. This may help show the user what is happening process.
