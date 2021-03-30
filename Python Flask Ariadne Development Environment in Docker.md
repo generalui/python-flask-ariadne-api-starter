@@ -580,7 +580,7 @@ Here are some very helpful extensions for working with docker containers:
 
 - [Docker Explorer](https://marketplace.visualstudio.com/items?itemName=formulahendry.docker-explorer) by Jun Han
 
-With these installed, I can spin up my container and auto start the server. Right clicking on the container in the "DOCKER CONTAINERS" tab and selecting "Logs" will output the container logs to a terminal without needing to enter the container.
+With one of these installed (having both is kind of duplicative), I can spin up my container and auto start the server. Right clicking on the container in the "DOCKER CONTAINERS" tab and selecting "Logs" will output the container logs to a terminal without needing to enter the container.
 
 The extension I use most is the [Remote-Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension.
 
