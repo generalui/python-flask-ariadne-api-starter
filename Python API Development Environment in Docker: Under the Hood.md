@@ -223,8 +223,6 @@ There is a magic `start.sh` script in the root of the project. Starting the app 
 ./start.sh
 ```
 
-in the root of the project.
-
 This will help set environment variables such as `DOT_ENV_FILE` by identifying if a `.env-dev` file exists or not. The script accepts a few flags:
 
 - `-b` or `--build` - Pass this flag if you explicitly want to rebuild the image.
