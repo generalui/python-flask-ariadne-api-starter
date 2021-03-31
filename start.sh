@@ -46,7 +46,7 @@ fi
 # If the `-r or --reset_env` flag is passed, set reset to true.
 if has_param '-r' "$@" || has_param '--reset_env' "$@"
 then
-    >&2 echo -e "${BLUE}Reset environemtn variables requested${NC}"
+    >&2 echo -e "${BLUE}Reset environement variables requested${NC}"
     reset=true
 fi
 
@@ -64,6 +64,8 @@ then
     # Ensure the NO_AUTO_START envirnoment variable is set to true.
     export NO_AUTO_START=true
 fi
+
+docker system prune --force
 
 if [ "${build}" = true ]
 then
