@@ -6,6 +6,24 @@
 
 In this article I will describe (in great detail) how I have configured a local dev environment to start up an application using Docker Compose and Docker containers. The result is a development environment that starts up quickly, is portable, and very closely resembles the final production environment.
 
+## TL;DR
+
+- Create a specific `Dockerfile` that resembles the production dockerfile as closely as possible.
+
+- Create a `docker-compose.yml` file that builds the Dev `Dockerfile`. The `docker-compose.yml` contains default values for environment variables and other configurations.
+
+- Create a `set_env_variables.sh` shell script that can set environment variables with defaults and picks up values from a `.env-dev` file.
+
+- Create a `reset_env_variables.sh` shell script that can unset all environment variables and then sources the `set_env_variables.sh` shell script.
+
+- Create a `./start.sh` shell script that makes configuring and starting the app a single simple call.
+
+- Create a `./stop.sh` shell script that makes cleanly stopping the app a single simple call.
+
+- Leverage the "Remote - Containers" VS Code extension by Microsoft for developing inside the container itself.
+
+- The code base for this article may be found at: [http://github/genui/python-flask-ariadne-api-starter](http://github/genui/python-flask-ariadne-api-starter).
+
 ## Introduction
 
 I often work on projects or create projects that must be handed off to other developers once created. Having been on the receiving end of this, I know that it can be a huge time-suck to try to get a project started up locally with all the correct dependencies. A developer picking up an existing application often needs to get the app running quickly so they can target the new feature (or bug) that is the current need. Exploring local setup shouldn't be the bulk of time spent.
