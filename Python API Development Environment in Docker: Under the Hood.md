@@ -22,7 +22,7 @@ The code base for this article may be found at: [http://github/genui/python-flas
 
 The Setup of the Python app itself is also outside of the scope of this article. Using the example app, we know that the app has a script or command to start the server. We will address how this script or command gets initialized later in the article.
 
-## Dockerfile
+## Dockerfile [†](#resources)
 
 The app has two Dockerfiles. One for deployment and one for development. I wanted the development file to resemble the production file as much as possible. the reason for two files is that in development, I have a number of dependencies (for testing, linting, profiling, etc) that I didn't need or want in production. I also have a number of apps that I wanted available in the container for dev that I didn't need or want in production.
 
@@ -99,11 +99,9 @@ CMD ["bash", "-c", "if [ -z ${NO_AUTO_START} ]; then python /app/run.py; else ta
 
 Of course the Docker files could be run as is with Docker cli. This would be just a bit ugly and complicated. I'll use docker-compose instead.
 
-## Docker Compose
+## Docker Compose [††](#resources)
 
 Using a docker compose file to start and stop the docker container allows much more configurability for my environment and app.
-
-To find out more about the docker-compose file and the configuration options, see [https://docs.docker.com/compose/compose-file/compose-file-v3/](https://docs.docker.com/compose/compose-file/compose-file-v3/)
 
 Here's a look at what is happening in the `docker-compose.yml` file that is being used for Dev.
 
@@ -183,9 +181,9 @@ I've added a container name and image name to help easily identify them on the l
 
 The `command` option is executed in the container once the container is built. I have created an optional `NO_AUTO_START` variable that will be set (or not) in the container. If it is set to a truthy value, the container will NOT automatically start the server. This may be useful for starting the container and then entering the container to do all dev inside. The server may then be started inside the container and played with exclusively in the container context. More on this later. If `NO_AUTO_START` is set to a truthy value, then I execute `tail -f /dev/null`. This tails nothing but provides a process to run so that the container will keep running.
 
-The `ports` option exposes ports inside the container to the outside machine. The `FLASK_RUN_PORT` is the port that the server will be running on. As localhost inside the container can't be accessed by the local browser, the port is exposed. This is also true for the `SNAKEVIZ_PORT` port, the port that the profiling info page is rendered on. Learn more about [SnakeViz](https://jiffyclub.github.io/snakeviz/).
+The `ports` option exposes ports inside the container to the outside machine. The `FLASK_RUN_PORT` is the port that the server will be running on. As localhost inside the container can't be accessed by the local browser, the port is exposed. This is also true for the `SNAKEVIZ_PORT` port, the port that the Snakeviz [†††](#resources) profiling info page is rendered on.
 
-The `volumes` option is very important in the development environment. We create a number of volumes here. All of them are delegated for better performance. This is geared towards developing INSIDE the container. See [Docker volumes: cached vs delegated](https://tkacz.pro/docker-volumes-cached-vs-delegated/). I create these 4 volumes:
+The `volumes` option is very important in the development environment. We create a number of volumes here. All of them are delegated [††††](#resources) for better performance. This is geared towards developing INSIDE the container. I create these 4 volumes:
 
 - I map the local project directory to the working directory inside the container. Thus, changes made in the local are reflected inside the container and vice versa.
 
@@ -193,9 +191,9 @@ The `volumes` option is very important in the development environment. We create
 
 - I map the local `~/.ssh` folder (in the user's home folder) to to the root user's home folder in the container. This makes the local ssh keys available inside the container for git fetches, pulls and pushes.
 
-- I map the entire root user's home folder in the container to a volume. We named the volume `python-flask-ariadne-api-starter-dev-root-vol` for this app to differentiate it from other volumes on the local, but you coould name it whatever is appropriate for your situation. Please note that the volume itself is defined at the bottom of the `docker-compose.yml` file under `volumes`.
+- I map the entire root user's home folder in the container to a volume. We named the volume `python-flask-ariadne-api-starter-dev-root-vol` for this app to differentiate it from other volumes on the local, but you could name it whatever is appropriate for your situation. Please note that the volume itself is defined at the bottom of the `docker-compose.yml` file under `volumes`.
 
-  This volume persists any other files that are created inside the root user's home folder inside the container. Files like `.bashrc` and `.profile` can be very useful inside the container. Additionally, if VS Code is being used and the [Remote - Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension is being used, the VS Code server and installed extensions are stored there. These will persist between starts and stops and helps make opening a lot faster.
+  This volume persists any other files that are created inside the root user's home folder inside the container. Files like `.bashrc` and `.profile` can be very useful inside the container. Additionally, if VS Code is being used and the "Remote - Containers" [†††††](#resources) extension is being used, the VS Code server and installed extensions are stored there. These will persist between starts and stops and helps make opening a lot faster.
 
 - The `logging` option limits the size of logs within the container. This ultimately helps with performance. If logs get too large, the container gets huge and can really slow down.
 
@@ -400,7 +398,7 @@ If the variables representing the passed flags are true, I take specific actions
 
   If `build` is still false, I execute `docker-compose up` WITHOUT the `-b` flag. Note that if there are changes to the `Dockerfile-dev` file, it will also rebuild.
 
-Before the docker-compose up is called, I call `docker system prune --force`. This cleans up the Docker environment. See [docker system prune](https://docs.docker.com/engine/reference/commandline/system_prune/).
+Before the docker-compose up is called, I call `docker system prune --force` [††††††](#resources). This cleans up the Docker environment.
 
 Now I check if the `NO_AUTO_START` environment variable is set. If it is NOT, I define a bunch of useful function and execute them.
 
@@ -566,13 +564,9 @@ Now that I can start up my environment within a docker container with a single c
 
 This next bit assumes VS Code is the IDE.
 
-Here are some very helpful extensions for working with docker containers:
+A very helpful extension for working with docker containers is "Docker" [†††††††](#resources) by Microsoft.
 
-- [Docker](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker) by Microsoft
-
-- [Docker Explorer](https://marketplace.visualstudio.com/items?itemName=formulahendry.docker-explorer) by Jun Han
-
-With one of these installed (having both is kind of duplicative), I can spin up my container and auto start the server. Right clicking on the container in the "DOCKER CONTAINERS" tab and selecting "Logs" will output the container logs to a terminal without needing to enter the container.
+With this installed, I can spin up my container and auto start the server. Right clicking on the container in the "DOCKER CONTAINERS" tab and selecting "Logs" will output the container logs to a terminal without needing to enter the container.
 
 The extension I use most is the [Remote-Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension.
 
@@ -587,3 +581,19 @@ Now I can open files for the project within the container itself. The container 
 It has taken me some time to get this dev setup working just right. I have been able to port it for other types of apps as well. It can make handing an app off to another developer very easy. They have very little setup and can get to the code right away.
 
 Please give it a go and let share your thoughts with me.
+
+## Resources
+
+† - To find out more about the Dockerfile see [https://docs.docker.com/engine/reference/builder/](https://docs.docker.com/engine/reference/builder/)
+
+†† - To find out more about the docker-compose file and the configuration options, see [https://docs.docker.com/compose/compose-file/compose-file-v3/](https://docs.docker.com/compose/compose-file/compose-file-v3/)
+
+††† - To learn more about SnakeViz, see [https://jiffyclub.github.io/snakeviz/](https://jiffyclub.github.io/snakeviz/).
+
+†††† - Learn more about "delegated" in the article ["Docker volumes: cached vs delegated"](https://tkacz.pro/docker-volumes-cached-vs-delegated/) by Łukasz Tkacz.
+
+††††† - To learn more about the "Remote - Containers" VS Code extension by Microsoft, see [https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers).
+
+†††††† - To learn more about `docker system prune`, see [https://docs.docker.com/engine/reference/commandline/system_prune/](https://docs.docker.com/engine/reference/commandline/system_prune/).
+
+††††††† - To learn more about the "Docker" VS Code extension by Microsoft, see [https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker)
