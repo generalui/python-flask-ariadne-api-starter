@@ -22,7 +22,7 @@ In this article I will describe (in great detail) how I have configured a local 
 
 - Leverage the "Remote - Containers" VS Code extension by Microsoft for developing inside the container itself.
 
-- The code base for this article may be found at: [https://github.com/generalui/python-flask-ariadne-api-starter](https://github.com/generalui/python-flask-ariadne-api-starter).
+- A full working example may be found at: [https://github.com/generalui/python-flask-ariadne-api-starter](https://github.com/generalui/python-flask-ariadne-api-starter).
 
 ## Introduction
 
