@@ -1,6 +1,12 @@
-# Python Flask Ariadne Development Environment in Docker
+# Python API Development Environment in Docker: Under the Hood
 
 ![Under the Hood](article_assets/UnderRoosevelt01.jpg)
+
+## Intention
+
+In this article I will describe (in great detail) how I have configured a local dev environment to start up an application using Docker Compose and Docker containers. The result is a development environment that starts up quickly, is portable, and very closely resembles the final production environment.
+
+## Introduction
 
 I often work on projects or create projects that must be handed off to other developers once created. Having been on the receiving end of this, I know that it can be a huge time-suck to try to get a project started up locally with all the correct dependencies. A developer picking up an existing application often needs to get the app running quickly so they can target the new feature (or bug) that is the current need. Exploring local setup shouldn't be the bulk of time spent.
 
@@ -8,24 +14,13 @@ Additionally, when I am working on local dev, I want my dev environment to match
 
 I recently had the great opportunity to create a GraphQL API in Python. I had experience in GraphQl, but none in Python. On that note please forgive anything I've done that doesn't seem "Pythonic"! I am still a learner of course and always striving to improve.
 
-When designing the API, we decided that a GraphQl API best served the requirements. GraphQL vs Rest is a completely different discussion and outside of the scope of this article. To that end We decided to use Flask as the Server and Ariadne for the GraphQL. Ariadne's approach of "Schema First" seems to work better with GraphQl. Additionally, I was able to translate ideas I have from Elixir development to the app for faster development.
+The type of API is irrelevant in the scope of this article.
 
 This app is using a PostgreSQL database but could be changed out to a different database. Changing out the database is outside of the scope of this article.
 
 The code base for this article may be found at: [http://github/genui/python-flask-ariadne-api-starter](http://github/genui/python-flask-ariadne-api-starter). The repo may be used as a starting point for your own Python GraphQL API.
 
-## Dependencies
-
-- [Git](https://git-scm.com/)
-- [Docker Desktop](https://www.docker.com/products/docker-desktop) (`docker`)
-- [Visual Studio Code](https://code.visualstudio.com/) (`code`) - this is optional, but sure makes everything a lot easier.
-- A PostgreSQL server. See [Running PostgreSQL in Docker](#running-postgresql-in-docker) for more info.
-
 The Setup of the Python app itself is also outside of the scope of this article. Using the example app, we know that the app has a script or command to start the server. We will address how this script or command gets initialized later in the article.
-
-## Running PostgreSQL in Docker
-
-Setting up a Postgres server for development is outside of the scope of this article. For this app, I am using [postgres_docker](https://github.com/generalui/postgres_docker).
 
 ## Dockerfile
 
@@ -36,6 +31,9 @@ The app has two Dockerfiles. One for deployment and one for development. I wante
 The production Dockerfile looks like:
 
 [`Dockerfile`](./Dockerfile)
+
+<details>
+<summary>Click to view file contents</summary>
 
 ```Dockerfile
 # Make the Python version into a variable so that it may be updated easily if / when needed. (ie "3.8")
@@ -69,6 +67,8 @@ RUN pip install --upgrade pip && \
     apk del --no-cache .build-deps
 ```
 
+</details>
+
 When the Docker container is built, the python image version must be passed in using the `--build-arg <variable_name>=<value>` flag. See: [https://docs.docker.com/engine/reference/builder/#arg](https://docs.docker.com/engine/reference/builder/#arg). This allows me to update the Python version easily if/when needed.
 
 The App deploys with uWSGI for easy and secure deployment.
@@ -89,6 +89,9 @@ Key similarities:
 - Removing the build tools after installing dependencies
 
 [`Dockerfile-dev`](./Dockerfile-dev)
+
+<details>
+<summary>Click to view file contents</summary>
 
 ```Dockerfile
 # Make the Python version into a variable so that it may be updated easily if / when needed. (ie "3.8")
@@ -137,6 +140,8 @@ RUN pip install --upgrade pip && \
 CMD ["bash", "-c", "if [ -z ${NO_AUTO_START} ]; then python /app/run.py; else tail -f /dev/null; fi"]
 ```
 
+</details>
+
 Of course the Docker files could be run as is with Docker cli. This would be just a bit ugly and complicated. I'll use docker-compose instead.
 
 ## Docker Compose
@@ -148,6 +153,9 @@ To find out more about the docker-compose file and the configuration options, se
 Here's a look at what is happening in the `docker-compose.yml` file that is being used for Dev.
 
 [`docker-compose.yml`](./docker-compose.yml)
+
+<details>
+<summary>Click to view file contents</summary>
 
 ```yaml
 version: "3.8"
@@ -187,7 +195,7 @@ services:
     command:
       - "sh"
       - "-c"
-      - "if [ -z ${NO_AUTO_START:-} ]; then python /app/run.py; else tail -f /dev/null; fi"
+      - "if [ ${NO_AUTO_START:-} ]; then tail -f /dev/null; else python /app/run.py; fi"
     ports:
       - ${FLASK_RUN_PORT:-5000}:${FLASK_RUN_PORT:-5000}
       - ${SNAKEVIZ_PORT:-8020}:${SNAKEVIZ_PORT:-8020}
@@ -203,6 +211,8 @@ services:
 volumes:
   python-flask-ariadne-api-starter-dev-root-vol:
 ```
+
+</details>
 
 The docker compose file is counting on a number of environment variables being available. Defaults have been defined in the event the variables haven't been set.
 
@@ -258,6 +268,9 @@ Here's a look at the `start.sh` script:
 
 [`start.sh`](./start.sh)
 
+<details>
+<summary>Click to view file contents</summary>
+
 ```bash
 #!/bin/bash
 
@@ -307,7 +320,7 @@ fi
 # If the `-r or --reset_env` flag is passed, set reset to true.
 if has_param '-r' "$@" || has_param '--reset_env' "$@"
 then
-    >&2 echo -e "${BLUE}Reset environemtn variables requested${NC}"
+    >&2 echo -e "${BLUE}Reset environement variables requested${NC}"
     reset=true
 fi
 
@@ -325,6 +338,8 @@ then
     # Ensure the NO_AUTO_START envirnoment variable is set to true.
     export NO_AUTO_START=true
 fi
+
+docker system prune --force
 
 if [ "${build}" = true ]
 then
@@ -407,7 +422,10 @@ then
 else
     >&2 echo -e "${GREEN}The server container is built and running.\n- The server has not been started; it must be started manually.\n- Please see the README.md for more information.${NC}"
 fi
+
 ```
+
+</details>
 
 There is a LOT going on here.
 
@@ -426,6 +444,8 @@ If the variables representing the passed flags are true, I take specific actions
 - If `build` is true, I execute `docker-compose up` with the `-b` flag to get it to rebuild the image.
 
   If `build` is still false, I execute `docker-compose up` WITHOUT the `-b` flag. Note that if there are changes to the `Dockerfile-dev` file, it will also rebuild.
+
+Before the docker-compose up is called, I call `docker system prune --force`. This cleans up the Docker environment. See [docker system prune](https://docs.docker.com/engine/reference/commandline/system_prune/).
 
 Now I check if the `NO_AUTO_START` environment variable is set. If it is NOT, I define a bunch of useful function and execute them.
 
@@ -447,12 +467,17 @@ This simply calls `docker-compose down`. It stops the container and removes it. 
 
 [`stop.sh`](./stop.sh)
 
+<details>
+<summary>Click to view file contents</summary>
+
 ```bash
 #!/bin/bash
 
 # Stop the container.
 docker-compose down
 ```
+
+</details>
 
 ## Environment Variables
 
@@ -465,6 +490,9 @@ The two environment variables that I need to have set are `DOT_ENV_FILE` and `FL
 I accomplish this in the `set_env_variables.sh` file. Here it is:
 
 [`set_env_variables.sh`](./set_env_variables.sh)
+
+<details>
+<summary>Click to view file contents</summary>
 
 ```bash
 #!/bin/bash
@@ -510,6 +538,8 @@ export FLASK_RUN_PORT=${FLASK_RUN_PORT:-5000}
 >&2 echo -e "${GREEN}* Default environment variables set that weren't overridden in the ${DOT_ENV} file or from the command line.${NC}"
 ```
 
+</details>
+
 Again, I define some nice colors for displaying console text to the user. This may help show the user what is happening process.
 
 I capture the path to the project folder so that I can use absolute paths moving forward.
@@ -523,6 +553,9 @@ Sometimes I end up setting environment variables on the command line for expedie
 Here is the script:
 
 [`reset_env_variables.sh`](./reset_env_variables.sh)
+
+<details>
+<summary>Click to view file contents</summary>
 
 ```bash
 #!/bin/bash
@@ -563,6 +596,8 @@ unset SSL_ENABLED
 # Set the environment variables.
 source ${PROJECT_DIR}/set_env_variables.sh
 ```
+
+</details>
 
 Yet again, I define some nice colors for displaying console text to the user. This may help show the user what is happening process.
 
