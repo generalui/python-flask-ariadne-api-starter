@@ -121,8 +121,6 @@ Of course the Docker files could be run as is with Docker cli. This would be jus
 
 Using a docker compose file to start and stop the docker container allows much more configurability for my environment and app.
 
-Here's a look at what is happening in the `docker-compose.yml` file that is being used for Dev.
-
 [`docker-compose.yml`](./docker-compose.yml)
 
 <details>
@@ -234,8 +232,6 @@ This will help set environment variables such as `DOT_ENV_FILE` by identifying i
 - `-r` or `--reset_env` - Pass this flag to reset environment variables back to defaults. Sometimes, I play around with environment variables and the values can get all crazy. This will reset them with one caveat in mind, it will read the values set in the `.env-dev` file. Clearing out this file will and passing this flag will completely reset the environment variables to defaults.
 
 - `-n` or `--no_auto_start` - Pass this flag to start the container without starting the server. This may be useful for starting the container and then entering the container to do all dev inside. The server may then be started inside the container and played with exclusively in the container context. More on this later.
-
-Here's a look at the `start.sh` script:
 
 [`start.sh`](./start.sh)
 
@@ -458,7 +454,7 @@ Most of the environment variables needed for this app are set by default in the 
 
 The two environment variables that I need to have set are `DOT_ENV_FILE` and `FLASK_RUN_PORT`. I need `DOT_ENV_FILE` set to the path for the `.env-dev` file if it exists. I need `FLASK_RUN_PORT` set as I use it in the `start.sh` script.
 
-I accomplish this in the `set_env_variables.sh` file. Here it is:
+I accomplish this in the `set_env_variables.sh` file.
 
 [`set_env_variables.sh`](./set_env_variables.sh)
 
@@ -520,8 +516,6 @@ I define and call a function (`dotenv`) that looks for the `.env-dev` file. If i
 Finally, I export the needed environment variables values from the `.env-dev` or with fallback defaults.
 
 Sometimes I end up setting environment variables on the command line for expedience sake. rather than going through all the variable on the command line to figure out what is set to what or trying to unset each of them manually, I can use the `reset_env_variables.sh` script to unset them all at once and reset the defaults.
-
-Here is the script:
 
 [`reset_env_variables.sh`](./reset_env_variables.sh)
 
