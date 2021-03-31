@@ -22,7 +22,7 @@ In this article I will describe (in great detail) how I have configured a local 
 
 - Leverage the "Remote - Containers" VS Code extension by Microsoft for developing inside the container itself.
 
-- The code base for this article may be found at: [http://github/genui/python-flask-ariadne-api-starter](http://github/genui/python-flask-ariadne-api-starter).
+- The code base for this article may be found at: [https://github.com/generalui/python-flask-ariadne-api-starter](https://github.com/generalui/python-flask-ariadne-api-starter).
 
 ## Introduction
 
@@ -36,7 +36,7 @@ The type of API is irrelevant in the scope of this article.
 
 This app is using a PostgreSQL database but could be changed out to a different database. Changing out the database is outside of the scope of this article.
 
-The code base for this article may be found at: [http://github/genui/python-flask-ariadne-api-starter](http://github/genui/python-flask-ariadne-api-starter). The repo may be used as a starting point for your own Python GraphQL API.
+The code base for this article may be found at: [https://github.com/generalui/python-flask-ariadne-api-starter](https://github.com/generalui/python-flask-ariadne-api-starter). The repo may be used as a starting point for your own Python GraphQL API.
 
 The Setup of the Python app itself is also outside of the scope of this article. Using the example app, we know that the app has a script or command to start the server. We will address how this script or command gets initialized later in the article.
 
