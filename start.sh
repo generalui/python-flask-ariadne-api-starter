@@ -91,6 +91,13 @@ then
         exit
     }
     
+    function open_url()
+    {
+        [[ -x $BROWSER ]] && exec "$BROWSER" "$url"
+        path=$(which xdg-open || which gnome-open || which open || which start) && exec "$path" "$url"
+        >&2 echo -e "${YELLOW}Can't find the browser.${NC}"
+    }
+    
     # Creates a animated progress (a cursor growing taller and shorter)
     function progress() {
         # Make sure to use non-unicode character type locale. (That way it works for any locale as long as the font supports the characters).
@@ -119,7 +126,8 @@ then
             # Cursor visible again.
             tput cnorm
             >&2 echo -e "${GREEN}GraphiQL is Up at localhost:${FLASK_RUN_PORT}/graphiql${NC}"
-            open http://localhost:${FLASK_RUN_PORT}/graphiql
+            url=http://localhost:${FLASK_RUN_PORT}/graphiql
+            open_url
         elif [[ ${iterator} -eq ${max_num_tries} ]]
         then
             # Stop the progress indicator.
