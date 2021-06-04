@@ -46,7 +46,7 @@ The app has two Dockerfiles. One for deployment and one for development. I wante
 
 ### Production Dockerfile
 
-The production Dockerfile can be seen [here](./Dockerfile).
+The production Dockerfile can be seen [here](https://github.com/generalui/python-flask-ariadne-api-starter/blob/main/Dockerfile).
 
 ### Development Dockerfile
 
@@ -61,7 +61,7 @@ Key similarities:
 - Building with the same `requirements.txt` file
 - Removing the build tools after installing dependencies
 
-[`Dockerfile-dev`](./Dockerfile-dev)
+[`Dockerfile-dev`](https://github.com/generalui/python-flask-ariadne-api-starter/blob/main/Dockerfile-dev)
 
 <details>
 <summary>Click to view file contents</summary>
@@ -121,7 +121,7 @@ Of course the Docker files could be run as is with Docker cli. This would be jus
 
 Using a docker compose file to start and stop the docker container allows much more configurability for my environment and app.
 
-[`docker-compose.yml`](./docker-compose.yml)
+[`docker-compose.yml`](https://github.com/generalui/python-flask-ariadne-api-starter/blob/main/docker-compose.yml)
 
 <details>
 <summary>Click to view file contents</summary>
@@ -231,7 +231,7 @@ This will help set environment variables such as `DOT_ENV_FILE` by identifying i
 
 - `-n` or `--no_auto_start` - Pass this flag to start the container without starting the server. This may be useful for starting the container and then entering the container to do all dev inside. The server may then be started inside the container and played with exclusively in the container context. More on this later.
 
-[`start.sh`](./start.sh)
+[`start.sh`](https://github.com/generalui/python-flask-ariadne-api-starter/blob/main/start.sh)
 
 <details>
 <summary>Click to view file contents</summary>
@@ -330,6 +330,13 @@ then
         exit
     }
 
+    function open_url()
+    {
+        [[ -x $BROWSER ]] && exec "$BROWSER" "$url"
+        path=$(which xdg-open || which gnome-open || which open || which start) && exec "$path" "$url"
+        >&2 echo -e "${YELLOW}Can't find the browser.${NC}"
+    }
+
     # Creates a animated progress (a cursor growing taller and shorter)
     function progress() {
         # Make sure to use non-unicode character type locale. (That way it works for any locale as long as the font supports the characters).
@@ -358,7 +365,8 @@ then
             # Cursor visible again.
             tput cnorm
             >&2 echo -e "${GREEN}GraphiQL is Up at localhost:${FLASK_RUN_PORT}/graphiql${NC}"
-            open http://localhost:${FLASK_RUN_PORT}/graphiql
+            url=http://localhost:${FLASK_RUN_PORT}/graphiql
+            open_url
         elif [[ ${iterator} -eq ${max_num_tries} ]]
         then
             # Stop the progress indicator.
@@ -414,7 +422,7 @@ Before the docker-compose up is called, I call `docker system prune --force` [â€
 
 Now I check if the `NO_AUTO_START` environment variable is set. If it is NOT, I define a bunch of useful function and execute them.
 
-I first start the progress function in the background. This will display an animated cursor to hep indicate to the user that something is actually happening and the app isn't just stuck. I set the progress pid to a variable so that I can kill it when I'm done with it.
+I first start the progress function in the background. This will display an animated cursor to help indicate to the user that something is actually happening and the app isn't just stuck. I set the progress pid to a variable so that I can kill it when I'm done with it.
 
 I capture CTRL+C so that if the user kills the script, I can still stop the progress function.
 
@@ -430,7 +438,7 @@ The `stop.sh` script is just the thing!
 
 This simply calls `docker-compose down`. It stops the container and removes it. Then removes any networks.
 
-[`stop.sh`](./stop.sh)
+[`stop.sh`](https://github.com/generalui/python-flask-ariadne-api-starter/blob/main/stop.sh)
 
 <details>
 <summary>Click to view file contents</summary>
@@ -454,7 +462,7 @@ The two environment variables that I need to have set are `DOT_ENV_FILE` and `FL
 
 I accomplish this in the `set_env_variables.sh` file.
 
-[`set_env_variables.sh`](./set_env_variables.sh)
+[`set_env_variables.sh`](https://github.com/generalui/python-flask-ariadne-api-starter/blob/main/set_env_variables.sh)
 
 <details>
 <summary>Click to view file contents</summary>
@@ -515,7 +523,7 @@ Finally, I export the needed environment variables values from the `.env-dev` or
 
 Sometimes I end up setting environment variables on the command line for expedience sake. rather than going through all the variable on the command line to figure out what is set to what or trying to unset each of them manually, I can use the `reset_env_variables.sh` script to unset them all at once and reset the defaults.
 
-[`reset_env_variables.sh`](./reset_env_variables.sh)
+[`reset_env_variables.sh`](https://github.com/generalui/python-flask-ariadne-api-starter/blob/main/reset_env_variables.sh)
 
 <details>
 <summary>Click to view file contents</summary>
