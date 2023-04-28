@@ -128,8 +128,7 @@ def test_addresses_cursor_pagination_last(client, common_query_builder, test_add
     response = client.post(
         '/api', json={'query': query, 'variables': {
             'paging': {
-                'last': num,
-                'before': to_cursor_hash(1000)
+                'last': num
             }
         }})
     json_data = json.loads(response.data)

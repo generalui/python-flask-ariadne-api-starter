@@ -172,7 +172,6 @@ def test_users_cursor_pagination_last(client, common_query_builder, test_users):
         '/api', json={'query': query, 'variables': {
             'paging': {
                 'last': num,
-                'before': to_cursor_hash(1000)
             }
         }})
     json_data = json.loads(response.data)
