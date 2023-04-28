@@ -1,9 +1,7 @@
 import json
 import pytest
-from os import getenv
 from faker import Faker
-from tests import NoneType
-from api.resolvers.resolver_helpers.paging_utils import from_cursor_hash, to_cursor_hash, Paging
+from api.resolvers.resolver_helpers.paging_utils import from_cursor_hash
 from api.db_models import Address
 
 

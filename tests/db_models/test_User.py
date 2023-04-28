@@ -1,6 +1,6 @@
 import pytest
 from sqlalchemy import and_
-from api.database import return_user_query, user_core_fields, user_related_fields
+from api.database import return_user_query, user_core_fields
 from api.db_models import Address, User
 
 

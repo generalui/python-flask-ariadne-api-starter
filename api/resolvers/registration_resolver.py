@@ -5,9 +5,7 @@ from psycopg2.errors import ForeignKeyViolation
 from graphql import GraphQLError
 from sqlalchemy.exc import IntegrityError
 from .resolver_helpers import get_value
-from api.constants.error_messages import INVALID_ADDRESS_ID
-
-import datetime
+from api.constants import INVALID_ADDRESS_ID
 import logging
 
 
@@ -28,7 +26,6 @@ def resolve_register_user(_, info, input):
 
     try:
         session = db.session
-        now = datetime.datetime.utcnow()
         password_hashed = generate_password_hash(clean_input['password'])
         new_password_hashed = generate_password_hash(
             clean_input['password_new']) if clean_input['password_new'] else None

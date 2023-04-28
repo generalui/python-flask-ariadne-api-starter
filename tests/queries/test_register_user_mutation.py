@@ -1,9 +1,7 @@
 import json
 import pytest
-from datetime import datetime
 from sqlalchemy import and_
-from tests import NoneType
-from api.constants.error_messages import INVALID_ADDRESS_ID
+from api.constants import INVALID_ADDRESS_ID
 from api.db_models import Address
 
 

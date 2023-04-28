@@ -1,10 +1,8 @@
-from datetime import datetime
 import json
 import pytest
 from werkzeug.security import generate_password_hash
-from api.constants.error_messages import INVALID_PASSWORD, LOGIN_ERROR, USER_NOT_FOUND
-from api.db_models import Address, User
-from api.enums import user_prefix_enum, user_status_enum
+from api.constants import USER_NOT_FOUND
+from api.db_models import User
 
 
 @pytest.fixture(scope='module')
