@@ -1,12 +1,9 @@
 import json
 import pytest
-from datetime import datetime
 from tests import NoneType
-from api.constants.error_messages import NOT_AUTHENTICATED
-from api.database.encode_jwt import encode_jwt
-from api.db_models import Address, User
-from api.enums import user_prefix_enum, user_status_enum
-import logging
+from api.auth import encode_jwt
+from api.constants import NOT_AUTHENTICATED
+from api.db_models import User
 
 
 @pytest.fixture(scope='module')

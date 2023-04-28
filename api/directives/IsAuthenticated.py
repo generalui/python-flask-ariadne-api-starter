@@ -1,6 +1,5 @@
 from ariadne import SchemaDirectiveVisitor
 from graphql import default_field_resolver, GraphQLError
-from api.constants.error_messages import NOT_AUTHENTICATED
 
 
 class IsAuthenticatedDirective(SchemaDirectiveVisitor):

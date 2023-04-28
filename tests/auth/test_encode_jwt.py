@@ -1,5 +1,5 @@
 import pytest
-from api.database import encode_jwt
+from api.auth import encode_jwt
 
 
 @pytest.fixture(scope='module')
