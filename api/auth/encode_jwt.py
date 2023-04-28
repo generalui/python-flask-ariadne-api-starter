@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 from jwt import encode
 from flask import current_app
+from api.constants import SECRET_KEY, SIGNING_ALGORITHM
 
 
 def encode_jwt(user_id, life=900):
@@ -21,6 +22,6 @@ def encode_jwt(user_id, life=900):
     }
     return encode(
         payload,
-        current_app.config.get('SECRET_KEY'),
-        algorithm='HS256'
+        current_app.config.get(SECRET_KEY),
+        algorithm=SIGNING_ALGORITHM
     )

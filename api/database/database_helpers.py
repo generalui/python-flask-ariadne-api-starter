@@ -5,6 +5,7 @@ from sqlalchemy.sql.expression import Executable
 from sqlalchemy.dialects import postgresql
 from api import db
 
+
 general_core_fields = ['id', 'name']
 
 

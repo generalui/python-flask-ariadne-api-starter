@@ -1,7 +1,7 @@
-from jwt import decode, PyJWTError
+from jwt import PyJWTError
 from api import db
-from api.constants.error_messages import INVALID_TOKEN, NOT_AUTHENTICATED, SIGNATURE_EXP
-from api.database.decode_jwt import decode_jwt
+from api.auth import decode_jwt
+from api.constants import INVALID_TOKEN, NOT_AUTHENTICATED, SIGNATURE_EXP
 from api.db_models import User
 
 

@@ -10,8 +10,10 @@ NC='\033[0m'
 PROJECT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 # Unset any previously set environment variables.
+unset APP_NAME
 unset DOT_ENV_FILE
 unset FLASK_APP
+unset FLASK_DEBUG_MODE
 unset FLASK_ENV
 unset FLASK_RUN_PORT
 unset LOG_TYPE

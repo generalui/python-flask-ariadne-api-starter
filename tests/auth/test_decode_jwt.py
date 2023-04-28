@@ -1,6 +1,6 @@
 import pytest
+from api.auth import decode_jwt, encode_jwt
 from api.constants.error_messages import INVALID_TOKEN, SIGNATURE_EXP
-from api.database import decode_jwt, encode_jwt
 
 
 @pytest.fixture(scope='module')

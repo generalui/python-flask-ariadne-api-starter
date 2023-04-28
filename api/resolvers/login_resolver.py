@@ -2,9 +2,8 @@ from api import db
 from datetime import datetime
 from graphql import GraphQLError
 from werkzeug.security import check_password_hash
-from api.constants.error_messages import INVALID_PASSWORD, LOGIN_ERROR, USER_NOT_FOUND
-from api.constants.values import LOGIN_LIFE
-from api.database.encode_jwt import encode_jwt
+from api.auth import encode_jwt
+from api.constants import INVALID_PASSWORD, LOGIN_ERROR, LOGIN_LIFE, USER_NOT_FOUND
 from api.db_models import User
 from .resolver_helpers import address_request_fields, build_user_graphql_response, build_users_query, get_requested, get_selection_set, get_value, user_request_fields
 

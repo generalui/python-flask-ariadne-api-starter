@@ -1,6 +1,7 @@
 from api.db_models import User
 from .database_helpers import build_general_query
 
+
 user_related_fields = ['address']
 
 user_core_fields = [

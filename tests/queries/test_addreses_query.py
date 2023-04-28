@@ -1,9 +1,7 @@
 import json
 import pytest
-from os import getenv
 from faker import Faker
-from tests import NoneType
-from api.resolvers.resolver_helpers.paging_utils import from_cursor_hash, to_cursor_hash, Paging
+from api.resolvers.resolver_helpers.paging_utils import from_cursor_hash
 from api.db_models import Address
 
 
@@ -100,7 +98,7 @@ def test_addresses_cursor_pagination_first(client, common_query_builder, test_ad
     end = from_cursor_hash(paging['endCursor'])
 
     assert len(items) == num
-    assert paging['hasNextPage'] == True
+    assert paging['hasNextPage']
     assert paging['hasPreviousPage'] == False
     assert start == items[0]['id']
     assert end == items[num - 1]['id']
@@ -128,8 +126,7 @@ def test_addresses_cursor_pagination_last(client, common_query_builder, test_add
     response = client.post(
         '/api', json={'query': query, 'variables': {
             'paging': {
-                'last': num,
-                'before': to_cursor_hash(1000)
+                'last': num
             }
         }})
     json_data = json.loads(response.data)
@@ -141,7 +138,7 @@ def test_addresses_cursor_pagination_last(client, common_query_builder, test_add
 
     assert len(items) == num
     assert paging['hasNextPage'] == False
-    assert paging['hasPreviousPage'] == True
+    assert paging['hasPreviousPage']
     assert start == items[0]['id']
     assert end == items[num - 1]['id']
 
@@ -234,9 +231,9 @@ def test_addresses_query_with_no_arguments(
     assert isinstance(results, list)
     assert len(results) == 10
     for result in results:
-        assert type(result['address1']) is str
-        assert type(result['address2']) is str
-        assert type(result['city']) is str
-        assert type(result['country']) is str
-        assert type(result['state']) is str
-        assert type(result['zipcode']) is str
+        assert isinstance(result['address1'], str)
+        assert isinstance(result['address2'], str)
+        assert isinstance(result['city'], str)
+        assert isinstance(result['country'], str)
+        assert isinstance(result['state'], str)
+        assert isinstance(result['zipcode'], str)

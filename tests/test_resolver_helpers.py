@@ -1,4 +1,3 @@
-import pytest
 from api.resolvers.resolver_helpers import build_option_args, get_value
 
 
@@ -45,7 +44,7 @@ def test_get_value():
     other = 'test2'
     parent = Parent(name, other)
     assert get_value(parent, 'name') == name
-    assert get_value(parent, 'nothing') == None
+    assert get_value(parent, 'nothing') is None
     assert get_value(parent, 'other') == other
-    assert get_value(None) == None
-    assert get_value() == None
+    assert get_value(None) is None
+    assert get_value() is None

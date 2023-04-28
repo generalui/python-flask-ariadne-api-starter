@@ -1,10 +1,15 @@
+import contextlib
+import pstats
+import io
+from sqlalchemy.engine import Engine
+from sqlalchemy import event
 import cProfile
 import datetime
 import os
 import time
 import logging
-
 from flask import current_app as app
+
 
 log = logging.getLogger('profiling')
 log.setLevel(logging.DEBUG)
@@ -57,9 +62,6 @@ def line_profile(f):
     return wrapper
 """
 
-from sqlalchemy import event
-from sqlalchemy.engine import Engine
-
 
 @event.listens_for(Engine, "before_cursor_execute")
 def before_cursor_execute(conn, cursor, statement,
@@ -74,12 +76,6 @@ def after_cursor_execute(conn, cursor, statement,
     total = time.time() - conn.info['query_start_time'].pop(-1)
     log.debug("Query Complete!")
     log.debug("Total Time: %f", total)
-
-
-import cProfile
-import io
-import pstats
-import contextlib
 
 
 @contextlib.contextmanager

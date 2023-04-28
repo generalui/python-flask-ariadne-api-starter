@@ -1,5 +1,4 @@
 import json
-import pytest
 
 
 def test_graphiql_get(client):
@@ -23,7 +22,7 @@ def test_graphiql_post(client):
     json_data = json.loads(response.data)
     user_agent = json_data['data']['test']['items']['userAgent']
 
-    assert type(user_agent) is str
+    assert isinstance(user_agent, str)
 
 
 def test_api_post(client):
@@ -32,4 +31,4 @@ def test_api_post(client):
     json_data = json.loads(response.data)
     user_agent = json_data['data']['test']['items']['userAgent']
 
-    assert type(user_agent) is str
+    assert isinstance(user_agent, str)

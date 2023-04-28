@@ -1,7 +1,7 @@
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
 from os import environ
-from config import get_config, get_database_uri
+from config import get_database_uri
 
 
 @pytest.fixture(scope='module')
@@ -29,7 +29,13 @@ def TestingUser(app):
     return 'TestingUser'
 
 
-def test_get_database_uri_non_test(TestingDB, TestingHost, TestingPassword, TestingPort, TestingUser, monkeypatch: MonkeyPatch):
+def test_get_database_uri_non_test(
+        TestingDB,
+        TestingHost,
+        TestingPassword,
+        TestingPort,
+        TestingUser,
+        monkeypatch: MonkeyPatch):
     monkeypatch.setenv('POSTGRES_USER', TestingUser)
     monkeypatch.setenv('POSTGRES_PASSWORD', TestingPassword)
     monkeypatch.setenv('POSTGRES_DB', TestingDB)
@@ -44,7 +50,13 @@ def test_get_database_uri_non_test(TestingDB, TestingHost, TestingPassword, Test
     ) == f'postgresql://{TestingUser}:{TestingPassword}@{TestingHost}:{TestingPort}/{TestingDB}'
 
 
-def test_get_database_uri_test(TestingDB, TestingHost, TestingPassword, TestingPort, TestingUser, monkeypatch: MonkeyPatch):
+def test_get_database_uri_test(
+        TestingDB,
+        TestingHost,
+        TestingPassword,
+        TestingPort,
+        TestingUser,
+        monkeypatch: MonkeyPatch):
     monkeypatch.setenv('POSTGRES_USER_TEST', TestingUser)
     monkeypatch.setenv('POSTGRES_PASSWORD_TEST', TestingPassword)
     monkeypatch.setenv('POSTGRES_DB_TEST', TestingDB)

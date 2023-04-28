@@ -1,9 +1,7 @@
 import json
 import pytest
-from datetime import datetime
 from sqlalchemy import and_
-from tests import NoneType
-from api.constants.error_messages import INVALID_ADDRESS_ID
+from api.constants import INVALID_ADDRESS_ID
 from api.db_models import Address
 
 
@@ -45,7 +43,7 @@ def test_register_user_mutation_invalid_address(client, common_mutation, email, 
     data = json_data['data']
     message = errors[0]['message']
 
-    assert data == None
+    assert data is None
     assert isinstance(errors, list)
     assert message == INVALID_ADDRESS_ID
 
@@ -65,5 +63,5 @@ def test_register_user_mutation(client, common_mutation, test_address, email, fi
     data = json_data['data']
     register = data['register']
 
-    assert type(register['id']) is str
-    assert register['status'] == True
+    assert isinstance(register['id'], str)
+    assert register['status']

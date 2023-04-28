@@ -1,12 +1,9 @@
 import json
 import pytest
-from datetime import datetime
 from tests import NoneType
-from api.constants.error_messages import NOT_AUTHENTICATED
-from api.database.encode_jwt import encode_jwt
-from api.db_models import Address, User
-from api.enums import user_prefix_enum, user_status_enum
-import logging
+from api.auth import encode_jwt
+from api.constants import NOT_AUTHENTICATED
+from api.db_models import User
 
 
 @pytest.fixture(scope='module')
@@ -33,7 +30,7 @@ def test_testAuth_query_no_Authorization_header(client):
     test = json_data['data']
     results = json_data['errors']
 
-    assert type(test) is NoneType
+    assert isinstance(test, NoneType)
     assert isinstance(results, list)
     assert len(results) == 1
     for result in results:
@@ -51,7 +48,7 @@ def test_testAuth_query_Authenticated(db_session, client, test_user, password):
     test = json_data['data']['testAuth']
     results = test['items']
 
-    assert type(results['userAgent']) is str
+    assert isinstance(results['userAgent'], str)
 
 
 def test_testAuth_query_no_bearer(db_session, client, test_user):
@@ -65,7 +62,7 @@ def test_testAuth_query_no_bearer(db_session, client, test_user):
     test = json_data['data']
     results = json_data['errors']
 
-    assert type(test) is NoneType
+    assert isinstance(test, NoneType)
     assert isinstance(results, list)
     assert len(results) == 1
     for result in results:
@@ -83,7 +80,7 @@ def test_testAuth_query_wrong_auth_schema(db_session, client, test_user):
     test = json_data['data']
     results = json_data['errors']
 
-    assert type(test) is NoneType
+    assert isinstance(test, NoneType)
     assert isinstance(results, list)
     assert len(results) == 1
     for result in results:
@@ -101,7 +98,7 @@ def test_testAuth_query_no_user(db_session, client, test_user):
     test = json_data['data']
     results = json_data['errors']
 
-    assert type(test) is NoneType
+    assert isinstance(test, NoneType)
     assert isinstance(results, list)
     assert len(results) == 1
     for result in results:

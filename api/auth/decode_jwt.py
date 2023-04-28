@@ -1,6 +1,6 @@
 from jwt import decode, ExpiredSignatureError, InvalidTokenError
 from flask import current_app
-from api.constants.error_messages import INVALID_TOKEN, SIGNATURE_EXP
+from api.constants import INVALID_TOKEN, SECRET_KEY, SIGNATURE_EXP, SIGNING_ALGORITHM
 
 
 def decode_jwt(auth_token):
@@ -17,7 +17,7 @@ def decode_jwt(auth_token):
     '''
     try:
         payload = decode(auth_token, current_app.config.get(
-            'SECRET_KEY'), algorithms=['HS256'])
+            SECRET_KEY), algorithms=[SIGNING_ALGORITHM])
         return payload['sub']
     except ExpiredSignatureError:
         return SIGNATURE_EXP

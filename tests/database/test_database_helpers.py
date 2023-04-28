@@ -49,11 +49,24 @@ def test_build_general_query(MockModelClass, test_db):
         MockModelClass, args=[], accepted_option_args=accepted_option_args,
         accepted_query_args=accepted_query_args)
 
-    assert str(test_1.statement.compile(dialect=postgresql.dialect())) == str(test_db.session.query(MockModelClass).options(
-        joinedload(option_value_1)).statement.compile(dialect=postgresql.dialect()))
+    assert str(
+        test_1.statement.compile(
+            dialect=postgresql.dialect())) == str(
+        test_db.session.query(MockModelClass).options(
+            joinedload(option_value_1)).statement.compile(
+            dialect=postgresql.dialect()))
 
-    assert str(test_2.statement.compile(dialect=postgresql.dialect())) == str(
-        test_db.session.query(getattr(MockModelClass, query_arg_1), getattr(MockModelClass, query_arg_2)).statement.compile(dialect=postgresql.dialect()))
+    assert str(
+        test_2.statement.compile(
+            dialect=postgresql.dialect())) == str(
+        test_db.session.query(
+            getattr(
+                MockModelClass,
+                query_arg_1),
+            getattr(
+                MockModelClass,
+                query_arg_2)).statement.compile(
+            dialect=postgresql.dialect()))
 
     assert str(test_3.statement.compile(dialect=postgresql.dialect())) == str(
         test_db.session.query(MockModelClass).statement.compile(dialect=postgresql.dialect()))

@@ -1,33 +1,37 @@
 {
-	"folders": [
-		{
-			"path": "."
-		}
-	],
-	"settings": {
-		"cSpell.enableFiletypes": [
-			"dockercompose",
-			"dockerfile"
-		],
-		"editor.formatOnSave": true,
-		"editor.formatOnPaste": true,
-		"editor.wordWrap": "on",
-		"files.associations": {
-			"*.dockerignore": "ignore",
-			".env-*": "dotenv",
-			"Dockerfile*": "dockerfile"
-		},
-		"files.eol": "\n",
-		"remote.containers.defaultExtensions": [
-			"bierner.markdown-preview-github-styles",
-			"davidanson.vscode-markdownlint",
-			"graphql.vscode-graphql",
-			"ms-python.python",
-			"ms-vscode-remote.remote-containers",
-			"shakram02.bash-beautify",
-			"shardulm94.trailing-spaces",
-			"streetsidesoftware.code-spell-checker"
-		],
-		"workbench.editor.highlightModifiedTabs": true
-	}
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "cSpell.enableFiletypes": [
+            "dockercompose",
+            "dockerfile"
+        ],
+        "editor.formatOnSave": true,
+        "editor.formatOnPaste": true,
+        "editor.wordWrap": "on",
+        "files.associations": {
+            "*.dockerignore": "ignore",
+            ".env-*": "dotenv",
+            "Dockerfile*": "dockerfile"
+        },
+        "files.eol": "\n",
+        "remote.containers.defaultExtensions": [
+            "bierner.markdown-preview-github-styles",
+            "davidanson.vscode-markdownlint",
+            "graphql.vscode-graphql",
+            "ms-python.python",
+            "ms-vscode-remote.remote-containers",
+            "shakram02.bash-beautify",
+            "shardulm94.trailing-spaces",
+            "streetsidesoftware.code-spell-checker"
+        ],
+        "workbench.editor.highlightModifiedTabs": true,
+        "[python]": {
+            "editor.defaultFormatter": "ms-python.python"
+        },
+        "python.formatting.provider": "autopep8"
+    }
 }

@@ -11,20 +11,21 @@ A GraphQL API that serves data from a PostgreSQL Database. This is built in Pyth
 ## Dependencies
 
 - [Git](https://git-scm.com/) To clone this repo!
+- [Bash](https://www.gnu.org/software/bash/) There are included scripts to run that were written for bash. There are a number of popular shells, `zsh`, `ash`, `fish`, `ksh`, etc. Of course these script could be adjusted for other shells to execute.
 - [Docker Desktop](https://www.docker.com/products/docker-desktop) (`docker`)
 - [Visual Studio Code](https://code.visualstudio.com/) (`code`) - this is optional, but sure makes everything a lot easier.
 - A PostgreSQL server. See [Running PostgreSQL in Docker](#running-postgresql-in-docker) for more info.
 
 ## Development
 
-The instructions below assume that there is a PostgreSQL server running locally with the Database installed. If this is not the case, please see information on [running PostgreSQL in Docker](#running-postgres-in-docker) below.
+The instructions below assume that there is a PostgreSQL server running locally with the Database installed. If this is not the case, please see information on [running PostgreSQL in Docker](#running-postgresql-in-docker) below.
 
 To change any of the environment variables used by the app see [Environment Variables](#environment-variables) below.
 
-The first time you checkout the project, run the following command to build the docker image, start the container, and start the API:
+The first time you checkout the project, after the database has been set up, run the following command to build the docker image, start the container, and start the API:
 
 ```sh
-./start.sh
+bash ./start.sh
 ```
 
 This will build the Docker image and run the container. Once the container is created, the Flask server will be started. Then a command prompt should open from within the container (looks like: `bash-5.0#`).
@@ -39,23 +40,23 @@ To exit the container's command prompt, type `exit` and enter. This will bring y
 
 The following command will stop the server and container:
 
-```sh
-./stop.sh
+```bash
+bash ./stop.sh
 ```
 
 Restart the container with the following command:
 
-```sh
-./start.sh
+```bash
+bash ./start.sh
 ```
 
-If there are changes made to the container or image, first, stop the container `./stop.sh`, then rebuild it and restarted it with `./start.sh --build` or `./start.sh -b`.
+If there are changes made to the container or image, first, stop the container `./stop.sh`, then rebuild it and restarted it with `bash ./start.sh --build` or `bash ./start.sh -b`.
 
 ### Non-Dockerized
 
 If you choose NOT to use the dockerized development method above, please ensure the following are installed:
 
-- [Python](https://www.python.org/) - version 3.8
+- [Python](https://www.python.org/) - version 3.10 (the latest version that ChatGPT is aware of)
 - All the packages in the [`requirements-main.txt`](./requirements-main.txt) file at the versions specified.
 - All the packages in the [`requirements-dev.txt`](./requirements-dev.txt) file at the versions specified.
 
@@ -63,8 +64,8 @@ See [https://packaging.python.org/guides/installing-using-pip-and-virtual-enviro
 
 Start the app with the following called from the root of the project:
 
-```sh
-source ./set_env_variables.sh && python run.py
+```bash
+bash ./set_env_variables.sh && python run.py
 ```
 
 ### Running PostgreSQL in Docker
@@ -98,8 +99,8 @@ POSTGRES_USER={get_the_database_user}
 
 All the environment variables used by the app have defaults. To set the environment variables, simply run the following bash script from the root of the [`project folder`](./):
 
-```sh
-source set_env_variables.sh
+```bash
+bash ./set_env_variables.sh
 ```
 
 The default environment variables' values may be over-written by adding the value to a `.env-dev` file in the root of the [`project folder`](./). This file is not versioned in the repository.
@@ -108,8 +109,8 @@ The [`.env-SAMPLE`](./.env-SAMPLE) file is an example of what the `.env-dev` cou
 
 To reset the environment variables to the defaults (still using the values in the `.env-dev` file), run the following bash script in the root of the [`project folder`](./):
 
-```sh
-source reset_env_variables.sh
+```bash
+bash ./reset_env_variables.sh
 ```
 
 ### Building the Database
@@ -123,35 +124,19 @@ Locally, there should be a dev database and a test database. Like:
 - `my_db_dev` - for development
 - `my_db_test` - for testing
 
-Once created, initialize the migrations from the command line at the root of the [`project folder`](./):
-
-```sh
-flask db init
-```
-
-This will create a `migrations` folder in the root of the app.
-
-Now, create the initial migration with:
-
-```sh
-flask db migrate -m "Initial migration."
-```
-
-This creates the `alembic_version` table in the database to track migrations. This also creates a migration file in the [`migrations`](./migrations) folder. **NOTE** The resulting migrations are executed in alphabetical order in the `versions` folder but the files are not necessarily created in order. Sometimes, changing the beginning of the hash name on the migration files to get them in the order they need to be built is necessary.
-
-Now execute the migrations with.
+This repo has already been set up with an initial migration that creates an `addresses` table and a `users` table. To get started right away, from the root of the app simply run
 
 ```sh
 flask db upgrade
 ```
 
-As and/or if models are changed or created, run
+There is an `alembic_version` table in the database to track migrations. The migration files are in the [`migrations`](./migrations) folder. **NOTE** The migration files are executed in alphabetical order from the [`versions`](./migrations/versions) folder but the files are not necessarily created in order. Sometimes, changing the beginning of the hash name on the migration files to get them in the proper order is necessary.
+
+If models are changed or created, create a new migration by running
 
 ```sh
 flask db migrate -m "Some message that describes the database change."
 ```
-
-again to create a new migration.
 
 This will create a new migration file.
 

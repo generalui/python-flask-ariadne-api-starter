@@ -13,4 +13,4 @@ sort = Cover
 [html]
 directory = coverage
 extra_css = coverage_assets/coverage.css
-title = Python Flask Ariadne API Starter Test Coverage
+title = ${APP_NAME-Python Flask Ariadne API Starter Test} Coverage

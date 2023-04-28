@@ -1,9 +1,11 @@
 from api import db
 from api.db_models import Address
-import datetime
+import logging
 
 
 def resolve_add_address(_, info, input):
+    log = logging.getLogger('resolve_add_address')
+
     # The values in the passed input come from the GraphQL Schema. Translate them to Pythonic variables.
     clean_input = {
         'country': input['country'],
@@ -16,7 +18,6 @@ def resolve_add_address(_, info, input):
 
     try:
         session = db.session
-        now = datetime.datetime.utcnow()
         address = Address(
             country=clean_input['country'],
             address_1=clean_input['address_1'],
@@ -31,7 +32,8 @@ def resolve_add_address(_, info, input):
             'status': True,
             'id': address.id
         }
-    except ValidationError as err:
+    except Exception as err:
+        log.error('Error adding address: %s', err[0])
         return {
             'status': False
         }
