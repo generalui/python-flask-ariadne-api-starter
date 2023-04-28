@@ -1,7 +1,7 @@
 // cSpell Settings
 {
-    // Version of the setting file.  Always 0.1
-    "version": "0.1",
+    // Version of the setting file.
+    "version": "0.2",
     // language - current active spelling language
     "language": "en",
     // words - list of words to be always considered correct
@@ -23,6 +23,7 @@
         "psycopg",
         "pytest",
         "Pythonic",
+        "sqlalchemy",
         "tiangolo",
         "uwsgi",
         "werkzeug",
