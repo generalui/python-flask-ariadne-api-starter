@@ -1,5 +1,4 @@
 import json
-import pytest
 
 
 def test_test_query(client):

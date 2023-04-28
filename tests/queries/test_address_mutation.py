@@ -1,6 +1,4 @@
 import json
-import pytest
-from tests import NoneType
 
 
 def test_add_address(client, address_1, address_2, city, country, state, zipcode):

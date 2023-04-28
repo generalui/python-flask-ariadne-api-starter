@@ -1,4 +1,3 @@
-import pytest
 from api.resolvers.resolver_helpers import build_option_args, get_value
 
 

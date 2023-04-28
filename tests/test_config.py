@@ -1,7 +1,7 @@
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
 from os import environ
-from config import get_config, get_database_uri
+from config import get_database_uri
 
 
 @pytest.fixture(scope='module')

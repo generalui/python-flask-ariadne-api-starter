@@ -1,5 +1,4 @@
 import logging
-from json import loads
 from datetime import datetime as dt
 from flask import Flask, request
 from config import get_config

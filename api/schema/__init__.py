@@ -1,6 +1,5 @@
 from ariadne import EnumType, load_schema_from_path, make_executable_schema, ObjectType, ScalarType
 import os
-import decimal
 from api.directives import IsAuthenticatedDirective
 from api.resolvers import resolve_add_address, resolve_addresses, resolver_login, resolve_register_user, resolve_test, resolve_users
 from api.enums import PagingType, user_prefix_enum, user_status_enum
