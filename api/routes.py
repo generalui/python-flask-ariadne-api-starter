@@ -1,20 +1,26 @@
 from ariadne import graphql_sync
-from ariadne.constants import PLAYGROUND_HTML
 from ariadne.contrib.tracing.apollotracing import ApolloTracingExtensionSync
+from ariadne.explorer import ExplorerGraphiQL
 from flask import current_app, jsonify, request
 import os
 from .context import get_user_context
 from .main import bp
 from .schema import schema
 
+# Retrieve HTML for the GraphiQL.
+# If explorer implements logic dependant on current request,
+# change the html(None) call to the html(request)
+# and move this line to the graphql_explorer function.
+explorer_html = ExplorerGraphiQL().html(None)
+
 
 @bp.route('/graphiql', methods=['GET'])
 def graphql_playgroud():
     # On GET request serve GraphQL Playground
     # You don't need to provide Playground if you don't want to
-    # but keep on mind this will not prohibit clients from
+    # but keep in mind this will not prohibit clients from
     # exploring your API using desktop GraphQL Playground app.
-    return PLAYGROUND_HTML, 200
+    return explorer_html, 200
 
 
 @bp.route('/graphiql', methods=['POST'])
