@@ -12,8 +12,8 @@ Additional assets for the coverage generation (ie css, images, etc) are in the [
 
 **NOTE:** If running tests outside of the container and the app hasn't been started yet, the environment variables won't have been set yet. To set the environment variables run the following in the same terminal as the tests before executing the tests at the root of the project folder. (Please note the dot(`.`) at the very beginning of the command. This will "source" the script.):
 
-```sh
-. set_env_variables.sh
+```bash
+bash ./set_env_variables.sh
 ```
 
 To run a test module simple run:
