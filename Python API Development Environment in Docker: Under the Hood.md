@@ -1,6 +1,6 @@
 # Python API Development Environment in Docker: Under the Hood
 
-![Under the Roosevelt Bridge - Seattle, WA](article_assets/UnderRoosevelt01.jpg)
+![Under the Roosevelt Bridge - Seattle, WA](repo_assets/UnderRoosevelt01.jpg)
 
 ## Intention
 

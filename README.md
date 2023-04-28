@@ -1,5 +1,7 @@
 # Python Flask Ariadne API Starter
 
+![Under the Roosevelt Bridge - Seattle, WA](repo_assets/UnderRoosevelt01.jpg)
+
 A GraphQL API that serves data from a PostgreSQL Database. This is built in Python with Flask and Ariadne and developed and deployed in Docker.
 
 ## Status
