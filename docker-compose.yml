@@ -5,7 +5,9 @@ services:
     env_file: ${DOT_ENV_FILE:-.env-none}
     # Ensure specific environment variables are ALWAYS available.
     environment:
+      - APP_NAME=${APP_NAME:-"Python Flask Ariadne API Starter Test"}
       - FLASK_APP=${FLASK_APP:-app.py}
+      - FLASK_DEBUG_MODE=${FLASK_DEBUG_MODE:-false}
       - FLASK_ENV=${FLASK_ENV:-development}
       - FLASK_RUN_PORT=${FLASK_RUN_PORT:-5000}
       - LOG_TYPE=${LOG_TYPE:-}
@@ -21,7 +23,7 @@ services:
       - POSTGRES_USER=${POSTGRES_USER:-postgres}
       - POSTGRES_USER_TEST=${POSTGRES_USER_TEST:-postgres}
       - PYTHONUNBUFFERED=1
-      - PYTHON_VERSION=${PYTHON_VERSION:-3.8}
+      - PYTHON_VERSION=${PYTHON_VERSION:-3.10}
       - SECRET_KEY=${SECRET_KEY:-some_real_good_secret}
       - SNAKEVIZ_PORT=${SNAKEVIZ_PORT:-8020}
       - SSL_ENABLED=${SSL_ENABLED:-}
@@ -29,7 +31,7 @@ services:
       context: ./
       dockerfile: Dockerfile-dev
       args:
-        pythonVersion: ${PYTHON_VERSION:-3.8}
+        pythonVersion: ${PYTHON_VERSION:-3.10}
     container_name: python-flask-ariadne-api-starter
     image: python-flask-ariadne-api-starter:dev
     command:
