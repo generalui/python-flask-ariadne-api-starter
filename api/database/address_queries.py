@@ -1,6 +1,7 @@
 from api.db_models import Address
 from .database_helpers import build_general_query
 
+
 address_core_fields = [
     'id',
     'address_1',

@@ -1,6 +1,7 @@
 from logging.config import dictConfig
 from os import makedirs, path
 
+
 """
 We have options in python for stdout (streamhandling) and file logging
 File logging has options for a Rotating file based on size or time (daily)

@@ -22,9 +22,9 @@ def test_test_query(client):
     test = json_data['data']['test']
     results = test['items']
 
-    assert type(results['contentType']) is str
-    assert type(results['userAgent']) is str
-    assert type(results['headers']['contentLength']) is int
-    assert type(results['headers']['contentType']) is str
-    assert type(results['headers']['host']) is str
-    assert type(results['headers']['userAgent']) is str
+    assert isinstance(results['contentType'], str)
+    assert isinstance(results['userAgent'], str)
+    assert isinstance(results['headers']['contentLength'], int)
+    assert isinstance(results['headers']['contentType'], str)
+    assert isinstance(results['headers']['host'], str)
+    assert isinstance(results['headers']['userAgent'], str)

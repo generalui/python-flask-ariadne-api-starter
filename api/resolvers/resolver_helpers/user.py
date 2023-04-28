@@ -38,7 +38,17 @@ def build_user_graphql_response(user):
 
 
 def build_users_query(
-        requested, address_requested, distinct=False, paging=Paging.DEFAULT, address_id=None, email=None, first_name=None, last_name=None, prefix=None, status=None, telephone=None):
+        requested,
+        address_requested,
+        distinct=False,
+        paging=Paging.DEFAULT,
+        address_id=None,
+        email=None,
+        first_name=None,
+        last_name=None,
+        prefix=None,
+        status=None,
+        telephone=None):
     """
     Builds a SQL request.
 

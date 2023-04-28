@@ -2,6 +2,7 @@ import logging
 from os import getenv
 from app import app
 
+
 environment = getenv('FLASK_ENV') or 'development'
 print(f'Starting server with {environment} config')
 

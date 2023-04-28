@@ -30,7 +30,7 @@ def test_testAuth_query_no_Authorization_header(client):
     test = json_data['data']
     results = json_data['errors']
 
-    assert type(test) is NoneType
+    assert isinstance(test, NoneType)
     assert isinstance(results, list)
     assert len(results) == 1
     for result in results:
@@ -48,7 +48,7 @@ def test_testAuth_query_Authenticated(db_session, client, test_user, password):
     test = json_data['data']['testAuth']
     results = test['items']
 
-    assert type(results['userAgent']) is str
+    assert isinstance(results['userAgent'], str)
 
 
 def test_testAuth_query_no_bearer(db_session, client, test_user):
@@ -62,7 +62,7 @@ def test_testAuth_query_no_bearer(db_session, client, test_user):
     test = json_data['data']
     results = json_data['errors']
 
-    assert type(test) is NoneType
+    assert isinstance(test, NoneType)
     assert isinstance(results, list)
     assert len(results) == 1
     for result in results:
@@ -80,7 +80,7 @@ def test_testAuth_query_wrong_auth_schema(db_session, client, test_user):
     test = json_data['data']
     results = json_data['errors']
 
-    assert type(test) is NoneType
+    assert isinstance(test, NoneType)
     assert isinstance(results, list)
     assert len(results) == 1
     for result in results:
@@ -98,7 +98,7 @@ def test_testAuth_query_no_user(db_session, client, test_user):
     test = json_data['data']
     results = json_data['errors']
 
-    assert type(test) is NoneType
+    assert isinstance(test, NoneType)
     assert isinstance(results, list)
     assert len(results) == 1
     for result in results:

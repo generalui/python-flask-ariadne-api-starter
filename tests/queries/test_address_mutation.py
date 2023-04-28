@@ -25,4 +25,4 @@ def test_add_address(client, address_1, address_2, city, country, state, zipcode
     data = json_data['data']
     register = data['addAddress']
 
-    assert register['status'] == True
+    assert register['status']

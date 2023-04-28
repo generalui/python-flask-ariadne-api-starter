@@ -18,7 +18,12 @@ def test_address(db_session, address_1, address_2, city, country, state, zipcode
 @pytest.fixture(scope='function')
 def test_user(db_session, test_address, email, first_name, last_name, password, status):
     user = User(
-        address_id=test_address.id, email=email, first_name=first_name, last_name=last_name, password=password, status=status)
+        address_id=test_address.id,
+        email=email,
+        first_name=first_name,
+        last_name=last_name,
+        password=password,
+        status=status)
     db_session.add(user)
     db_session.commit()
 

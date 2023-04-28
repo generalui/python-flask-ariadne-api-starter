@@ -3,7 +3,17 @@ from .resolver_helpers import address_request_fields, build_user_graphql_respons
 from .resolver_helpers.paging_utils import paginate, Paging, paging_fields
 
 
-def resolve_users(_, info, distinct=False, paging=None, addressId=None, email=None, firstName=None, lastName=None, status=None, telephone=None):
+def resolve_users(
+        _,
+        info,
+        distinct=False,
+        paging=None,
+        addressId=None,
+        email=None,
+        firstName=None,
+        lastName=None,
+        status=None,
+        telephone=None):
     # The selection is nested under the 'items' node.
     selection_set = get_selection_set(info=info, child_node='items')
     requested = get_requested(
@@ -14,8 +24,8 @@ def resolve_users(_, info, distinct=False, paging=None, addressId=None, email=No
 
     paging = paging if paging else Paging.DEFAULT
 
-    query, count_query = build_users_request(
-        requested, address_requested, distinct=distinct, paging=paging, address_id=addressId, email=email, first_name=firstName, last_name=lastName, status=status, telephone=telephone)
+    query, count_query = build_users_request(requested, address_requested, distinct=distinct, paging=paging,
+                                             address_id=addressId, email=email, first_name=firstName, last_name=lastName, status=status, telephone=telephone)
 
     pagination_requested = get_requested(info, paging_fields, 'paging')
     return paginate(

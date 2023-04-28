@@ -81,7 +81,13 @@ def test_users(db_session, test_addresses, email, first_name, last_name, passwor
 
         # Create one predictable record.
         test_user = User(
-            address_id=first_address_id, email=email, first_name=first_name, last_name=last_name, password=generate_password_hash(password), status=status, telephone=telephone)
+            address_id=first_address_id,
+            email=email,
+            first_name=first_name,
+            last_name=last_name,
+            password=generate_password_hash(password),
+            status=status,
+            telephone=telephone)
         db_session.add(test_user)
         db_session.commit()
 
@@ -100,7 +106,13 @@ def test_users(db_session, test_addresses, email, first_name, last_name, passwor
                 fake_email + fake_first_name + fake_last_name + fake_status + fake_telephone)
             if current_length < len(records):
                 fake_test_user = User(
-                    address_id=random_address_id, email=fake_email, first_name=fake_first_name, last_name=last_name, password=generate_password_hash(fake_password), status=fake_status, telephone=fake_telephone)
+                    address_id=random_address_id,
+                    email=fake_email,
+                    first_name=fake_first_name,
+                    last_name=last_name,
+                    password=generate_password_hash(fake_password),
+                    status=fake_status,
+                    telephone=fake_telephone)
                 db_session.add(fake_test_user)
                 db_session.commit()
 
@@ -141,7 +153,7 @@ def test_users_cursor_pagination_first(client, common_query_builder, test_users)
     end = from_cursor_hash(paging['endCursor'])
 
     assert len(items) == num
-    assert paging['hasNextPage'] == True
+    assert paging['hasNextPage']
     assert paging['hasPreviousPage'] == False
     assert start == items[0]['id']
     assert end == items[num - 1]['id']
@@ -181,7 +193,7 @@ def test_users_cursor_pagination_last(client, common_query_builder, test_users):
 
     assert len(items) == num
     assert paging['hasNextPage'] == False
-    assert paging['hasPreviousPage'] == True
+    assert paging['hasPreviousPage']
     assert start == items[0]['id']
     assert end == items[num - 1]['id']
 
@@ -275,9 +287,9 @@ def test_users_query_with_no_arguments(
     assert isinstance(results, list)
     assert len(results) == 10
     for result in results:
-        assert type(result['addressId']) is str
-        assert type(result['email']) is str
-        assert type(result['firstName']) is str
-        assert type(result['lastName']) is str
-        assert type(result['status']) is str
-        assert type(result['telephone']) is str
+        assert isinstance(result['addressId'], str)
+        assert isinstance(result['email'], str)
+        assert isinstance(result['firstName'], str)
+        assert isinstance(result['lastName'], str)
+        assert isinstance(result['status'], str)
+        assert isinstance(result['telephone'], str)

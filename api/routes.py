@@ -7,6 +7,7 @@ from .context import get_user_context
 from .main import bp
 from .schema import schema
 
+
 # Retrieve HTML for the GraphiQL.
 # If explorer implements logic dependant on current request,
 # change the html(None) call to the html(request)

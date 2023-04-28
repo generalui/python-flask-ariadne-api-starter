@@ -5,6 +5,7 @@ from api.db_models import Address
 from .general_resolvers import get_selected, get_value
 from .paging_utils import get_pagination_queries, Paging
 
+
 address_request_fields = {'id',
                           'address1',
                           'address2',
@@ -30,7 +31,16 @@ def build_address_graphql_response(address):
     }
 
 
-def build_address_request(requested, distinct=False, paging=Paging.DEFAULT, address_1=None, address_2=None, city=None, country=None, state=None, zipcode=None):
+def build_address_request(
+        requested,
+        distinct=False,
+        paging=Paging.DEFAULT,
+        address_1=None,
+        address_2=None,
+        city=None,
+        country=None,
+        state=None,
+        zipcode=None):
     """
     Builds a SQL request.
 

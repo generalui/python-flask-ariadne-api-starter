@@ -28,9 +28,9 @@ def from_cursor_hash(encoded):
 
 
 def get_cursor(before, after):
-    if after != None:
+    if after is not None:
         return (from_cursor_hash(after), Paging.ASC)
-    if before != None:
+    if before is not None:
         return (from_cursor_hash(before), Paging.DESC)
     return (None, Paging.ASC)
 
@@ -51,8 +51,8 @@ def get_limit(first, last, limit):
 
 def get_pagination_queries(query, paging, distinct, cursor_field=None):
     count_query = query
-    if paging.get('type', Paging.CURSOR) == Paging.OFFSET or distinct == True:
-        if distinct == True:
+    if paging.get('type', Paging.CURSOR) == Paging.OFFSET or distinct:
+        if distinct:
             return query.distinct(), count_query.distinct()
         return query, count_query
     # Handle cursor and sort order
@@ -85,7 +85,7 @@ def create_temp_table(query, paging, distinct):
 
     table_name = f'_temp_{uuid.uuid4()}'.replace('-', '')
 
-    if paging_type == Paging.OFFSET or distinct == True:
+    if paging_type == Paging.OFFSET or distinct:
         page = paging.get('page', 1)
         # run the offset query
         query = query.limit(limit)
@@ -111,7 +111,7 @@ def fetch_page(query, paging, distinct):
     last = paging.get('last')
     limit = paging.get('limit')
     limit, order = get_limit(first, last, limit)
-    if paging_type == Paging.OFFSET or distinct == True:
+    if paging_type == Paging.OFFSET or distinct:
         if distinct:
             query = query.distinct()
         return query.paginate(page, limit).items
@@ -136,7 +136,7 @@ def process_page(items, count_query, paging, distinct, response_builder, paginat
         'total': None
     }
 
-    if paging_type == Paging.OFFSET or distinct == True:
+    if paging_type == Paging.OFFSET or distinct:
         # if distinct is True, paging type must be OFFSET
         pageInfo['type'] = Paging.OFFSET
         pageInfo['page'] = paging.get('page', 1)
@@ -144,7 +144,7 @@ def process_page(items, count_query, paging, distinct, response_builder, paginat
     else:
         returned = len(items)
         if order == Paging.ASC:
-            hasNextPage = items != None and returned == limit + 1
+            hasNextPage = items is not None and returned == limit + 1
             pageInfo['hasNextPage'] = hasNextPage
             pageInfo['hasPreviousPage'] = False
             if hasNextPage:
@@ -152,7 +152,7 @@ def process_page(items, count_query, paging, distinct, response_builder, paginat
         if order == Paging.DESC:
             items.reverse()  # We have to reverse the list to get previous pages in the expected order
             pageInfo['hasNextPage'] = False
-            hasPreviousPage = items != None and returned == limit + 1
+            hasPreviousPage = items is not None and returned == limit + 1
             pageInfo['hasPreviousPage'] = hasPreviousPage
             if hasPreviousPage:
                 items.pop(0)  # remove the extra first item

@@ -1,8 +1,10 @@
+from api import db_models
 import logging
 from datetime import datetime as dt
 from flask import Flask, request
 from config import get_config
 from .extensions import db, logs, migrate
+
 
 def create_app(test=False):
     config = get_config(test=test)
@@ -51,6 +53,3 @@ def register_extensions(app):
     logs.init_app(app)
     migrate.init_app(app, db)
     return None
-
-
-from api import db_models

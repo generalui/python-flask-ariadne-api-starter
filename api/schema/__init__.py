@@ -4,6 +4,7 @@ from api.directives import IsAuthenticatedDirective
 from api.resolvers import resolve_add_address, resolve_addresses, resolver_login, resolve_register_user, resolve_test, resolve_users
 from api.enums import PagingType, user_prefix_enum, user_status_enum
 
+
 schema_dirname, _filename = os.path.split(os.path.abspath(__file__))
 
 ### Import GraphQl schemas/ ###

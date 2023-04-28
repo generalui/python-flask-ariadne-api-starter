@@ -18,8 +18,8 @@ def common_mutation():
 
 @pytest.fixture(scope='function')
 def test_user(db_session, email, first_name, last_name, password, status):
-    user = User(
-        email=email, first_name=first_name, last_name=last_name, password=generate_password_hash(password), status=status)
+    user = User(email=email, first_name=first_name, last_name=last_name,
+                password=generate_password_hash(password), status=status)
     db_session.add(user)
     db_session.commit()
 
@@ -48,7 +48,7 @@ def test_login_mutation_no_email(client, common_mutation, password):
     assert json_data['data'] is None
     errors = json_data['errors']
     assert len(errors) == 1
-    assert type(errors[0]['message']) is str
+    assert isinstance(errors[0]['message'], str)
 
 
 def test_login_mutation_no_password(client, common_mutation, email):
@@ -59,7 +59,7 @@ def test_login_mutation_no_password(client, common_mutation, email):
     assert json_data['data'] is None
     errors = json_data['errors']
     assert len(errors) == 1
-    assert type(errors[0]['message']) is str
+    assert isinstance(errors[0]['message'], str)
 
 
 def test_login_mutation_invalid_password(client, common_mutation, email, password, test_user):
@@ -74,7 +74,7 @@ def test_login_mutation_invalid_password(client, common_mutation, email, passwor
     assert json_data['data'] is None
     errors = json_data['errors']
     assert len(errors) == 1
-    assert type(errors[0]['message']) is str
+    assert isinstance(errors[0]['message'], str)
 
 
 def test_login_mutation(client, common_mutation, email, password, test_user):
@@ -86,6 +86,6 @@ def test_login_mutation(client, common_mutation, email, password, test_user):
     }})
     json_data = json.loads(response.data)
     login = json_data['data']['login']
-    assert type(login['token']) is str
+    assert isinstance(login['token'], str)
     assert login['error'] is None
     assert login['user']['email'] == email

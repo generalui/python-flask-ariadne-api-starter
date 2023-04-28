@@ -98,7 +98,7 @@ def test_addresses_cursor_pagination_first(client, common_query_builder, test_ad
     end = from_cursor_hash(paging['endCursor'])
 
     assert len(items) == num
-    assert paging['hasNextPage'] == True
+    assert paging['hasNextPage']
     assert paging['hasPreviousPage'] == False
     assert start == items[0]['id']
     assert end == items[num - 1]['id']
@@ -138,7 +138,7 @@ def test_addresses_cursor_pagination_last(client, common_query_builder, test_add
 
     assert len(items) == num
     assert paging['hasNextPage'] == False
-    assert paging['hasPreviousPage'] == True
+    assert paging['hasPreviousPage']
     assert start == items[0]['id']
     assert end == items[num - 1]['id']
 
@@ -231,9 +231,9 @@ def test_addresses_query_with_no_arguments(
     assert isinstance(results, list)
     assert len(results) == 10
     for result in results:
-        assert type(result['address1']) is str
-        assert type(result['address2']) is str
-        assert type(result['city']) is str
-        assert type(result['country']) is str
-        assert type(result['state']) is str
-        assert type(result['zipcode']) is str
+        assert isinstance(result['address1'], str)
+        assert isinstance(result['address2'], str)
+        assert isinstance(result['city'], str)
+        assert isinstance(result['country'], str)
+        assert isinstance(result['state'], str)
+        assert isinstance(result['zipcode'], str)
