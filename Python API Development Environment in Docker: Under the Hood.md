@@ -16,11 +16,11 @@ In this article I will describe (in great detail) how I have configured a local 
 
 - Create a `reset_env_variables.sh` shell script that can unset all environment variables and then sources the `set_env_variables.sh` shell script.
 
-- Create a `./start.sh` shell script that makes configuring and starting the app a single simple call.
+- Create a `start.sh` shell script that makes configuring and starting the app a single simple call.
 
-- Create a `./stop.sh` shell script that makes cleanly stopping the app a single simple call.
+- Create a `stop.sh` shell script that makes cleanly stopping the app a single simple call.
 
-- Leverage the "Remote - Containers" VS Code extension by Microsoft for developing inside the container itself.
+- Leverage the "Dev Containers" VS Code extension by Microsoft for developing inside the container itself.
 
 - A full working example may be found at: [https://github.com/generalui/python-flask-ariadne-api-starter](https://github.com/generalui/python-flask-ariadne-api-starter).
 
@@ -209,7 +209,7 @@ The `volumes` option is very important in the development environment. We create
 
 - I map the entire root user's home folder in the container to a volume. We named the volume `python-flask-ariadne-api-starter-dev-root-vol` for this app to differentiate it from other volumes on the local, but you could name it whatever is appropriate for your situation. Please note that the volume itself is defined at the bottom of the `docker-compose.yml` file under `volumes`.
 
-  This volume persists any other files that are created inside the root user's home folder inside the container. Files like `.bashrc` and `.profile` can be very useful inside the container. Additionally, if VS Code is being used and the "Remote - Containers" [†††††](#resources) extension is being used, the VS Code server and installed extensions are stored there. These will persist between starts and stops and helps make opening a lot faster.
+  This volume persists any other files that are created inside the root user's home folder inside the container. Files like `.bashrc` and `.profile` can be very useful inside the container. Additionally, if VS Code is being used and the "Dev Containers" [†††††](#resources) extension is being used, the VS Code server and installed extensions are stored there. These will persist between starts and stops and helps make opening a lot faster.
 
 - The `logging` option limits the size of logs within the container. This ultimately helps with performance. If logs get too large, the container gets huge and can really slow down.
 
@@ -219,8 +219,8 @@ The `docker-compose.yml` file may be run on it's own to start the docker contain
 
 There is a magic `start.sh` script in the root of the project. Starting the app in dev is as simple as running
 
-```sh
-./start.sh
+```bash
+bash ./start.sh
 ```
 
 This will help set environment variables such as `DOT_ENV_FILE` by identifying if a `.env-dev` file exists or not. The script accepts a few flags:
@@ -285,7 +285,7 @@ fi
 # If the `-r or --reset_env` flag is passed, set reset to true.
 if has_param '-r' "$@" || has_param '--reset_env' "$@"
 then
-    >&2 echo -e "${BLUE}Reset environement variables requested${NC}"
+    >&2 echo -e "${BLUE}Reset environment variables requested${NC}"
     reset=true
 fi
 
@@ -300,7 +300,7 @@ fi
 
 if [ "${no_auto_start}" = true ]
 then
-    # Ensure the NO_AUTO_START envirnoment variable is set to true.
+    # Ensure the NO_AUTO_START environment variable is set to true.
     export NO_AUTO_START=true
 fi
 
@@ -541,8 +541,10 @@ NC='\033[0m'
 PROJECT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 # Unset any previously set environment variables.
+unset APP_NAME
 unset DOT_ENV_FILE
 unset FLASK_APP
+unset FLASK_DEBUG_MODE
 unset FLASK_ENV
 unset FLASK_RUN_PORT
 unset LOG_TYPE
@@ -588,7 +590,7 @@ With this installed, I can spin up my container and auto start the server. Right
 
 The extension I use most is the [Remote-Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension.
 
-With this extension, I can start the container (I usually start the container without auto starting the server - `./start.sh -n`) and enter the container itself for developing. I keep a VS Code workspace file in my repo with the recommended extensions for inside the container defined in the `settings` block in `remote.containers.defaultExtensions`.
+With this extension, I can start the container (I usually start the container without auto starting the server - `bash ./start.sh -n`) and enter the container itself for developing. I keep a VS Code workspace file in my repo with the recommended extensions for inside the container defined in the `settings` block in `remote.containers.defaultExtensions`.
 
 The first time I open the container, I open the VS Code workspace within the container. A notification opens and reminds me that there are recommended extensions. I install them inside the container. All the extensions in the container are installed in the root user's home folder. As this folder is maps to a volume, once the extensions are installed they persist between starts and stops and don't effect my regular local machine setup.
 
@@ -610,7 +612,7 @@ Please give it a go and let share your thoughts with me.
 
 †††† - Learn more about "delegated" in the article ["Docker volumes: cached vs delegated"](https://tkacz.pro/docker-volumes-cached-vs-delegated/) by Łukasz Tkacz.
 
-††††† - To learn more about the "Remote - Containers" VS Code extension by Microsoft, see [https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers).
+††††† - To learn more about the "Dev Containers" VS Code extension by Microsoft, see [https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers).
 
 †††††† - To learn more about `docker system prune`, see [https://docs.docker.com/engine/reference/commandline/system_prune/](https://docs.docker.com/engine/reference/commandline/system_prune/).
 
