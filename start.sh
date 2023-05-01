@@ -46,7 +46,7 @@ fi
 # If the `-r or --reset_env` flag is passed, set reset to true.
 if has_param '-r' "$@" || has_param '--reset_env' "$@"
 then
-    >&2 echo -e "${BLUE}Reset environement variables requested${NC}"
+    >&2 echo -e "${BLUE}Reset environment variables requested${NC}"
     reset=true
 fi
 
@@ -61,7 +61,7 @@ fi
 
 if [ "${no_auto_start}" = true ]
 then
-    # Ensure the NO_AUTO_START envirnoment variable is set to true.
+    # Ensure the NO_AUTO_START environment variable is set to true.
     export NO_AUTO_START=true
 fi
 
@@ -90,14 +90,14 @@ then
         tput cnorm
         exit
     }
-    
+
     function open_url()
     {
         [[ -x $BROWSER ]] && exec "$BROWSER" "$url"
         path=$(which xdg-open || which gnome-open || which open || which start) && exec "$path" "$url"
         >&2 echo -e "${YELLOW}Can't find the browser.${NC}"
     }
-    
+
     # Creates a animated progress (a cursor growing taller and shorter)
     function progress() {
         # Make sure to use non-unicode character type locale. (That way it works for any locale as long as the font supports the characters).
@@ -113,7 +113,7 @@ then
             echo -en "\033[1D"
         done
     }
-    
+
     # Pings the server up to 35 times to see if it is available yet.
     function check_status() {
         local max_num_tries=35
